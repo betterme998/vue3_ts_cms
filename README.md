@@ -44,3 +44,11 @@ npm run build
 ```sh
 npm run lint
 ```
+
+
+# 配置vue文件类型声明
+    在env.d.ts文件夹配置 4-9行
+# 配置项目环境
+    安装volar 和volar+ts插件
+
+# 配置项目代码规范 -见markdown
