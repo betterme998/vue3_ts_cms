@@ -208,3 +208,36 @@ npm install less -D
     4.创建对以上store
 
 # 网络请求封装axios
+
+1.安装axios: npm install axios 2.把之前封装好的库 复制过来
+
+# 区分development （开发）和production （生成）环境
+
+.对于有一些变量，它在开发环境下的值和生成环境下的值是不匹配的
+例子：
+baseURL = "服务器地址" （开发环境服务器地址，和生成环境服务器地址不是同一个，是两台服务器甚至多台。）
+有两台服务器对于前端来说 我们要保存的标识符在开发环境和生产环境用的不是同一个
+
+1.Vite的环境变量
+Vite在一个特殊的import.meta.env对象上暴露环境变量。这里有一些在所有情况下都可以使用的内建变量
+import.meta.env.MODE:{string}应用运行的模式
+import.meta.env.PROD:{boolean}应用是否运行在生产环境
+import.meta.env.DEV:{boolean}应用是否运行在开发环境（永远于import.meta.env.PROD相反）
+import.meta.env.SSR:{boolean}应用是否运行在server上
+
+2.vite使用dotenv从你的环境目录中的下列文件加载额外的环境变量
+里面的变量名必须以VITE开头
+.env文件 开发环境生产环境都会读取
+.env.development 开发环境读取
+.env.production 生产环境读取
+.env.local 所有情况都会加载，但会被git忽略
+.env.[mode] 只在指定模式下加载
+.env.[mode].local 只在指定模式下加载 但会被git忽略
+
+# Element-Plus集成
+
+1.安装element-plus： npm install element-plus 2.安装自动导入插件： npm install -D unplugin-vue-components unplugin-auto-import 3.官网有（然后把下列代码插入到你的 Vite 或 Webpack 的配置文件中）(配置时，指定文件生成位置：dts: 'src/auto-imports.d.ts' 另一个同上)
+
+2.注意：2.当按需引入时会生成两个文件 auto-imports.d.ts components.d.ts 把这两个文件在tsconfig.app.json里配置 "include": ["env.d.ts", "src/**/*", "src/**/*.vue", "auto-imports.d.ts", "components.d.ts"],
+
+3.按需导入只会导入<template></template>里面的组件，不会帮我们自动导入 ‘反馈组件’ 例如：Loading。因为这些组件是在<script>标签使用的
