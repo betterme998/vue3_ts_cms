@@ -6,20 +6,16 @@
 -->
 <template>
   <div class="login">
-    <h2>login</h2>
+    <div class="login">
+      <login-panel />
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import hyRequest from '@/service'
-hyRequest
-  .get({
-    url: '/home/multidata'
-  })
-  .then((res) => {
-    console.log(res)
-  })
+import LoginPanel from './c-cpns/login-panel.vue'
 </script>
+
 <style lang="less" scoped>
 .login {
   display: flex;

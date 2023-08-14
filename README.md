@@ -241,3 +241,16 @@ import.meta.env.SSR:{boolean}应用是否运行在server上
 2.注意：2.当按需引入时会生成两个文件 auto-imports.d.ts components.d.ts 把这两个文件在tsconfig.app.json里配置 "include": ["env.d.ts", "src/**/*", "src/**/*.vue", "auto-imports.d.ts", "components.d.ts"],
 
 3.按需导入只会导入<template></template>里面的组件，不会帮我们自动导入 ‘反馈组件’ 例如：Loading。因为这些组件是在<script>标签使用的
+
+1.图标引入-搭建登录页面1.创建global文件和register-icons.ts,定义一个函数接收一个参数（传过来的app）并导出。在main.ts中use使用（和pinia一样）。注意传过来的app类型。然后按照官网步骤将icon图标创建成组件
+
+2.封装帐号登录，手机登录组件，并编写表单校验
+
+3.点击登录获取帐号密码，父组件获取子组件的值 两种办法1.子组件传递出来 2.父组件点击按钮后执行子组件的方法，登录操作在子组件进行，我们用方法2
+使用defineExpose传出子组件方法给父组件使用
+在3中 获取子组件需要绑定ref，但是ref要指定泛型这样提示会更友好，我们不知道这个组件的泛型是什么如下
+
+4.导入的组件是setup语法糖导出的对象，它是一个‘实例’，那我想知道这个实例的类型怎么办？
+这个实例可以当成类型使用，ts语法：InstanceType<typeof 构造器>返回构造器创建的实例的类型
+
+5.完成用户登录输入时表单验证报错，点击登录无效效果.
