@@ -11,7 +11,7 @@ const hyRequest = new HYRequest({
 export const hyRequest2 = new HYRequest({
   // 因为HYRequest 参数类型是AxiosRequestConfig，但是我们需要传入拦截器
   // 所以提取声明，让它不新鲜，不会进行严格检测
-  baseURL: 'http://codercba.com:1888/airbnb/api',
+  baseURL: 'http://152.136.185.210:4000',
   timeout: 8000,
   // 对拦截做精细控制：部分拦截 部分不拦截
   // 传入拦截器

@@ -253,4 +253,14 @@ import.meta.env.SSR:{boolean}应用是否运行在server上
 4.导入的组件是setup语法糖导出的对象，它是一个‘实例’，那我想知道这个实例的类型怎么办？
 这个实例可以当成类型使用，ts语法：InstanceType<typeof 构造器>返回构造器创建的实例的类型
 
-5.完成用户登录输入时表单验证报错，点击登录无效效果.
+5.完成用户登录输入时表单验证报错，点击登录无效效果. 1.给帐户登录的from一个ref 同上给ref定义泛型，通过ref拿到from表单验证结果
+
+6.当输入错误弹出反馈组件，反馈组件和它的样式需要手动引入，1.解决办法下载 npm i vite-plugin-style-import -D （vite-plugin-style-import包依赖consola包也要下载 npm i consola -D）2.配置vite.config.ts 可以百度搜索
+
+7.在网络请求文件夹创建 登录请求方法login 传入url 和 参数并执行
+
+8.登录成功保存登录信息（保存到pinia）
+
+8.1.在store中创建login的store，并且登录请求放到store中进行,请求成功保存信息
+8.2.保存到pinia中（但是刷新数据会消失，所以需要保存到其他地方）
+8.3.登录请求参数any类型不严谨，所以可以在login文件夹下创建一个type文件夹用来管理通用的 类型或接口 (这个类型放在哪里好？ 建议1.放在起源的地方，哪里第一次用.建议2.直接在scr目录下创建一个types文件来管理)

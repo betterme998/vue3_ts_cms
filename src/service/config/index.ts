@@ -11,7 +11,15 @@ import.meta.env.PROD:{boolean}应用是否运行在生产环境
 import.meta.env.DEV:{boolean}应用是否运行在开发环境（永远于import.meta.env.PROD相反）
 import.meta.env.SSR:{boolean}应用是否运行在server上
 */
-export const BASE_URL = import.meta.env.BASE_URL
-export const TIME_OUT = 1000
+let BASE_URL = ''
+if (import.meta.env.PROD) {
+  // 生产环境
+  BASE_URL = 'http://codercba.com:5000'
+} else {
+  // 开发环境
+  BASE_URL = 'http://codercba.com:5000'
+}
+export const TIME_OUT = 10000
+export { BASE_URL }
 
 // 3.通过创建.env文件直接创建变量

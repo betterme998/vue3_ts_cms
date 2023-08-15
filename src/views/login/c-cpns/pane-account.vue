@@ -7,7 +7,14 @@
 <template>
   <!-- 账号登录 -->
   <div class="pane-account">
-    <el-form :model="account" :rules="accountRules" label-width="60px" size="large" status-icon>
+    <el-form
+      :model="account"
+      :rules="accountRules"
+      label-width="60px"
+      size="large"
+      status-icon
+      ref="fromRef"
+    >
       <el-form-item label="帐号" prop="name">
         <el-input v-model="account.name" />
       </el-form-item>
@@ -19,11 +26,13 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue'
-import type { FormRules } from 'element-plus'
-
+import { reactive, ref } from 'vue'
+import type { FormRules, ElForm } from 'element-plus'
+import { ElMessage } from 'element-plus'
+import useLoginStore from '@/store/login/login'
+import type { IAccount } from '@/types'
 // 定义account数据
-const account = reactive({
+const account = reactive<IAccount>({
   name: '',
   password: ''
 })
@@ -32,7 +41,7 @@ const account = reactive({
 const accountRules: FormRules = {
   name: [
     { required: true, message: '必须输入帐户信息~', trigger: 'blur' },
-    { pattern: /^[a-z0-9]{6,20}$/, message: '必须是6~20位长度~', trigger: 'blur' }
+    { pattern: /^[a-z0-9]{6,20}$/, message: '必须是6~20位长度的数字或字母~', trigger: 'blur' }
   ],
   password: [
     { required: true, message: '必须输入密码信息~', trigger: 'blur' },
@@ -41,8 +50,23 @@ const accountRules: FormRules = {
 }
 
 // 3.执行账号的登录逻辑
+const fromRef = ref<InstanceType<typeof ElForm>>()
+const loginStore = useLoginStore()
 function loginAction() {
-  console.log('pance-account', account.name, account.password)
+  // 表单验证结果
+  fromRef.value?.validate((valid) => {
+    if (valid) {
+      // 1.获取用户输入的账号和密码
+      const name = account.name
+      const password = account.password
+
+      // 2.向服务器发送网络请求（携带账号密码）
+      loginStore.loginAccountAction({ name, password })
+    } else {
+      // 反馈组件需要手动引入组件和样式 (使用vite-plugin-style-import包（依赖包consola） 会自动导入)
+      ElMessage.error('Oops, 请您输入正确的格式后再进行操作~~')
+    }
+  })
 }
 // 报出去给父组件使用
 defineExpose({
