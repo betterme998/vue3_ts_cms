@@ -31,10 +31,15 @@ import type { FormRules, ElForm } from 'element-plus'
 import { ElMessage } from 'element-plus'
 import useLoginStore from '@/store/login/login'
 import type { IAccount } from '@/types'
+import { localCache } from '@/utils/cache'
+
+const CACHE_NAME = 'name'
+const CHCHE_PASSWORD = 'password'
+
 // 定义account数据
 const account = reactive<IAccount>({
-  name: '',
-  password: ''
+  name: localCache.getCache(CACHE_NAME) ?? '',
+  password: localCache.getCache(CHCHE_PASSWORD) ?? ''
 })
 
 // 2.定义校验规则
@@ -52,7 +57,7 @@ const accountRules: FormRules = {
 // 3.执行账号的登录逻辑
 const fromRef = ref<InstanceType<typeof ElForm>>()
 const loginStore = useLoginStore()
-function loginAction() {
+function loginAction(isRemPwd: boolean) {
   // 表单验证结果
   fromRef.value?.validate((valid) => {
     if (valid) {
@@ -61,7 +66,16 @@ function loginAction() {
       const password = account.password
 
       // 2.向服务器发送网络请求（携带账号密码）
-      loginStore.loginAccountAction({ name, password })
+      loginStore.loginAccountAction({ name, password }).then(() => {
+        // 3.判断是否需要记住密码
+        if (isRemPwd) {
+          localCache.setCache(CACHE_NAME, name)
+          localCache.setCache(CHCHE_PASSWORD, password)
+        } else {
+          localCache.removeCache(CACHE_NAME)
+          localCache.removeCache(CHCHE_PASSWORD)
+        }
+      })
     } else {
       // 反馈组件需要手动引入组件和样式 (使用vite-plugin-style-import包（依赖包consola） 会自动导入)
       ElMessage.error('Oops, 请您输入正确的格式后再进行操作~~')

@@ -47,13 +47,17 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import PaneAccount from './pane-account.vue'
 import PanePhone from './pane-phone.vue'
+import { localCache } from '@/utils/cache'
 
-// 是否保存密码
 const activeName = ref('account')
-const isRemPwd = ref(false)
+// 是否保存密码
+const isRemPwd = ref<boolean>(localCache.getCache('isRemPwd') ?? false)
+watch(isRemPwd, (newValue) => {
+  localCache.setCache('isRemPwd', newValue)
+})
 
 // 给子组件绑定ref，父组件拿到里面的方法并调用
 // 导入的组件（PaneAccount）是setup语法糖导出的对象，它是一个‘实例’
@@ -64,9 +68,8 @@ const accountRef = ref<InstanceType<typeof PaneAccount>>()
 // 点击登录
 function handleLoginBtnClick() {
   if (activeName.value === 'account') {
-    // 1.获取子组件的实例
-    accountRef.value?.loginAction()
-    // 2.调用方法
+    // 1.获取子组件的实例调用方法，并将是否记住密码传递过去
+    accountRef.value?.loginAction(isRemPwd.value)
   } else {
     console.log('用户手机登录')
   }
