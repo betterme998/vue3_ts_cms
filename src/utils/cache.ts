@@ -12,14 +12,14 @@ class Cache {
   }
 
   setCache(key: string, value: any) {
-    if (value) {
+    if (value !== null) {
       this.storage.setItem(key, JSON.stringify(value))
     }
   }
 
   getCache(key: string) {
     const value = this.storage.getItem(key)
-    if (value) {
+    if (value !== null) {
       return JSON.parse(value)
     }
   }

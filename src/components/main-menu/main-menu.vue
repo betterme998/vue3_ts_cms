@@ -6,13 +6,14 @@
 -->
 <template>
   <div class="main-menu">
-    <div class="logo">
+    <div class="logo" :class="{ logoMin: isFold }">
       <img class="img" src="@/assets/img/logo.svg" alt="" />
-      <h2 class="title">管理系统</h2>
+      <h2 v-show="!isFold" class="title">管理系统</h2>
     </div>
     <div class="menu">
       <el-menu
         active-text-color="#fff"
+        :collapse="isFold"
         text-color="#b7bdc3"
         background-color="#001529"
         default-active="3"
@@ -21,6 +22,10 @@
         <template v-for="item in userMenus" :key="item.id">
           <el-sub-menu :index="item.id + ''">
             <template #title>
+              <!-- 图标使用动态组件， -->
+              <el-icon>
+                <component :is="item.icon.split('el-icon')[1]" />
+              </el-icon>
               <span>{{ item.name }}</span>
             </template>
             <template v-for="subitem in item.children" :key="subitem.id">
@@ -35,7 +40,14 @@
 
 <script setup lang="ts">
 import useLoginStore from '@/store/login/login'
-
+import type { Monitor } from '@element-plus/icons-vue'
+// 0.定义props
+defineProps({
+  isFold: {
+    type: Boolean,
+    default: false
+  }
+})
 // 1.获取动态菜单
 const loginStore = useLoginStore()
 const userMenus = loginStore.userMenus
@@ -46,7 +58,6 @@ console.log(userMenus)
   height: 100%;
   background-color: #001529;
 }
-
 .logo {
   display: flex;
   height: 30px;
@@ -68,7 +79,9 @@ console.log(userMenus)
     white-space: nowrap;
   }
 }
-
+.logoMin {
+  justify-content: center;
+}
 .el-menu {
   border-right: none;
   user-select: none;
