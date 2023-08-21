@@ -35,11 +35,18 @@ const useLoginStore = defineStore('login', {
       // 3.根据角色请求用户的权限（菜单menus）
       const userMenusResult = await getUserMenusByRoleId(this.userInfo.role.id)
       const userMenus = userMenusResult.data.data
+      console.log(userMenus)
+
       this.userMenus = userMenus
 
       // 4.进行本地缓存
       localCache.setCache('userInfo', userInfo)
       localCache.setCache('userMenus', userMenus)
+
+      // 5.重要：动态添加路由
+      // 1.获取菜单
+      // 2.动态获取所有的路由对象，放到数组 （路由对象都在独立的文件中，从文件中将所以路由对象读取到数组中）
+      // 3.根据菜单匹配正确的路由 （router.addRouter('main',xxx)）
 
       // 5.页面跳转（main页面）
       router.push('/main')

@@ -29,7 +29,9 @@
               <span>{{ item.name }}</span>
             </template>
             <template v-for="subitem in item.children" :key="subitem.id">
-              <el-menu-item :index="subitem.id + ''">{{ subitem.name }}</el-menu-item>
+              <el-menu-item :index="subitem.id + ''" @click="handleItemClick(subitem)">{{
+                subitem.name
+              }}</el-menu-item>
             </template>
           </el-sub-menu>
         </template>
@@ -40,7 +42,7 @@
 
 <script setup lang="ts">
 import useLoginStore from '@/store/login/login'
-import type { Monitor } from '@element-plus/icons-vue'
+import { useRouter } from 'vue-router'
 // 0.定义props
 defineProps({
   isFold: {
@@ -51,7 +53,15 @@ defineProps({
 // 1.获取动态菜单
 const loginStore = useLoginStore()
 const userMenus = loginStore.userMenus
-console.log(userMenus)
+
+// 2.监听item的点击
+const router = useRouter()
+function handleItemClick(item: any) {
+  const url = item.url
+  console.log(url)
+
+  router.push(url)
+}
 </script>
 <style lang="less" scoped>
 .main-menu {

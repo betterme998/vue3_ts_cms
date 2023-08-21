@@ -17,7 +17,50 @@ const router = createRouter({
     },
     {
       path: '/main',
-      component: () => import('../views/main/main.vue')
+      component: () => import('../views/main/main.vue'),
+      children: [
+        {
+          path: '/main/analysis/overview',
+          component: () => import('../views/main/analysis/overview/overview.vue')
+        },
+        {
+          path: '/main/analysis/dashboard',
+          component: () => import('../views/main/analysis/dashboard/dashboard.vue')
+        },
+        {
+          path: '/main/system/user',
+          component: () => import('../views/main/system/user/user.vue')
+        },
+        {
+          path: '/main/system/role',
+          component: () => import('../views/main/system/role/role.vue')
+        },
+        // 111
+        {
+          path: '/main/system/department',
+          component: () => import('../views/main/system/department/department.vue')
+        },
+        {
+          path: '/main/system/menu',
+          component: () => import('../views/main/system/menu/menu.vue')
+        },
+        {
+          path: '/main/story/chat',
+          component: () => import('../views/main/story/chat/chat.vue')
+        },
+        {
+          path: '/main/story/list',
+          component: () => import('../views/main/story/list/list.vue')
+        },
+        {
+          path: '/main/product/category',
+          component: () => import('../views/main/product/category/category.vue')
+        },
+        {
+          path: '/main/product/goods',
+          component: () => import('../views/main/product/goods/goods.vue')
+        }
+      ]
     },
     {
       path: '/:pathMatch(.*)',
@@ -25,6 +68,9 @@ const router = createRouter({
     }
   ]
 })
+
+// 动态添加路由
+// router.addRoute('main',localRouter[0])
 
 // 导航守卫
 // 参数：to(跳转到的位置)/from（从哪里跳转过来）
