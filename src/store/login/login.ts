@@ -4,6 +4,8 @@ import type { IAccount } from '@/types'
 import { localCache } from '@/utils/cache'
 import router from '@/router'
 import { LOGIN_TOKEN } from '@/global/constants'
+import type { RouteRecordRaw } from 'vue-router'
+import { mapMenusToRoutes } from '@/utils/map-menus'
 
 interface ILoginState {
   token: string
@@ -14,9 +16,9 @@ interface ILoginState {
 const useLoginStore = defineStore('login', {
   // 如何指定state返回的类型
   state: (): ILoginState => ({
-    token: localCache.getCache(LOGIN_TOKEN) ?? '',
-    userInfo: localCache.getCache('userInfo') ?? '',
-    userMenus: localCache.getCache('userMenus') ?? ''
+    token: '',
+    userInfo: {},
+    userMenus: []
   }),
   actions: {
     async loginAccountAction(account: IAccount) {
@@ -44,12 +46,27 @@ const useLoginStore = defineStore('login', {
       localCache.setCache('userMenus', userMenus)
 
       // 5.重要：动态添加路由
-      // 1.获取菜单
-      // 2.动态获取所有的路由对象，放到数组 （路由对象都在独立的文件中，从文件中将所以路由对象读取到数组中）
-      // 3.根据菜单匹配正确的路由 （router.addRouter('main',xxx)）
+      const routes = mapMenusToRoutes(userMenus)
+      routes.forEach((route) => router.addRoute('main', route))
 
       // 5.页面跳转（main页面）
       router.push('/main')
+    },
+    loadLocalCacheAction() {
+      // 1.用户进行刷新默认加载数据
+      const token = localCache.getCache(LOGIN_TOKEN)
+      const userInfo = localCache.getCache('userInfo')
+      const userMenus = localCache.getCache('userMenus')
+      if (token && userInfo && userMenus) {
+        this.token = token
+        this.userInfo = userInfo
+        this.userMenus = userMenus
+
+        // 动态添加路由
+        // 5.重要：动态添加路由
+        const routes = mapMenusToRoutes(userMenus)
+        routes.forEach((route) => router.addRoute('main', route))
+      }
     }
   }
 })
