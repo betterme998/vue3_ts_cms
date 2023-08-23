@@ -23,10 +23,7 @@
     <div class="info">
       <el-dropdown>
         <span class="user-info">
-          <el-avatar
-            :size="30"
-            src="https://upload.jianshu.io/users/upload_avatars/1102036/c3628b478f06.jpeg"
-          />
+          <el-avatar :size="30" :src="imgUrl" />
           <span class="name">coderwhy</span>
         </span>
         <template #dropdown>
@@ -51,9 +48,11 @@
 </template>
 
 <script setup lang="ts">
+import imgUrl from '@/assets/img/avatar.svg'
 import { useRouter } from 'vue-router'
 import { LOGIN_TOKEN } from '@/global/constants'
 import { localCache } from '@/utils/cache'
+
 const router = useRouter()
 function handleExitClick() {
   localCache.removeCache(LOGIN_TOKEN)

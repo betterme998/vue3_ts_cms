@@ -16,7 +16,7 @@
         :collapse="isFold"
         text-color="#b7bdc3"
         background-color="#001529"
-        default-active="3"
+        :default-active="activeDefault"
       >
         <!-- 1.遍历整个菜单 -->
         <template v-for="item in userMenus" :key="item.id">
@@ -42,7 +42,10 @@
 
 <script setup lang="ts">
 import useLoginStore from '@/store/login/login'
-import { useRouter } from 'vue-router'
+import { ref } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
+import { mapPathToMenu } from '@/utils/map-menus'
+import { computed } from 'vue'
 // 0.定义props
 defineProps({
   isFold: {
@@ -62,6 +65,15 @@ function handleItemClick(item: any) {
 
   router.push(url)
 }
+
+// 3.el-menu的默认选中菜单
+// 首次进入，选中动态路由第一个路由对象对应的菜单
+const route = useRoute()
+// 当路径改变时，重新计算选中的菜单
+const activeDefault = computed(() => {
+  const pathMenu = mapPathToMenu(route.path, userMenus)
+  return pathMenu.id + ''
+})
 </script>
 <style lang="less" scoped>
 .main-menu {
