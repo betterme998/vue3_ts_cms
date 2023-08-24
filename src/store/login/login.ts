@@ -24,6 +24,7 @@ const useLoginStore = defineStore('login', {
     async loginAccountAction(account: IAccount) {
       // 1.账号登录，获取token等信息
       const loginResult = await accountLogins(account)
+      console.log(loginResult)
       const id = loginResult.data.data.id
       this.token = loginResult.data.data.token
       // 进行本地缓存
@@ -31,19 +32,21 @@ const useLoginStore = defineStore('login', {
 
       // 2.获取登录用户的详细信息
       const userInfoResult = await getUserInfoById(id)
+      console.log(userInfoResult)
+
       const userInfo = userInfoResult.data.data
       this.userInfo = userInfo
 
       // 3.根据角色请求用户的权限（菜单menus）
       const userMenusResult = await getUserMenusByRoleId(this.userInfo.role.id)
       const userMenus = userMenusResult.data.data
-      console.log(userMenus)
+      console.log(userMenusResult)
 
       this.userMenus = userMenus
 
       // 4.进行本地缓存
-      localCache.setCache('userInfo', userInfo)
-      localCache.setCache('userMenus', userMenus)
+      localCache.setCache('userInfos', userInfo)
+      localCache.setCache('userMenuss', userMenus)
 
       // 5.重要：动态添加路由
       const routes = mapMenusToRoutes(userMenus)
@@ -55,8 +58,8 @@ const useLoginStore = defineStore('login', {
     loadLocalCacheAction() {
       // 1.用户进行刷新默认加载数据
       const token = localCache.getCache(LOGIN_TOKEN)
-      const userInfo = localCache.getCache('userInfo')
-      const userMenus = localCache.getCache('userMenus')
+      const userInfo = localCache.getCache('userInfos')
+      const userMenus = localCache.getCache('userMenuss')
       if (token && userInfo && userMenus) {
         this.token = token
         this.userInfo = userInfo

@@ -6,7 +6,12 @@
 -->
 <template>
   <div class="user">
-    <h2>user</h2>
+    <div class="search">搜索表单</div>
+    <div class="content">
+      <div class="header">头部</div>
+      <div class="table">表格</div>
+      <div class="pagination">分页</div>
+    </div>
   </div>
 </template>
 
