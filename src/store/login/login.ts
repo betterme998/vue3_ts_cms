@@ -31,6 +31,7 @@ const useLoginStore = defineStore('login', {
       localCache.setCache(LOGIN_TOKEN, this.token)
 
       // 2.获取登录用户的详细信息
+      console.log(id)
       const userInfoResult = await getUserInfoById(id)
       console.log(userInfoResult)
 
