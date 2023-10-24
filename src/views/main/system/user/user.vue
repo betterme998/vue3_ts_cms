@@ -6,7 +6,7 @@
 -->
 <template>
   <div class="user">
-    <div class="search">搜索表单</div>
+    <user-search />
     <div class="content">
       <div class="header">头部</div>
       <div class="table">表格</div>
@@ -15,7 +15,9 @@
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import UserSearch from './c-cpns/user-search.vue'
+</script>
 <style lang="less" scoped>
 .user {
 }
