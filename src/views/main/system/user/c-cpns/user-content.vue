@@ -5,6 +5,7 @@
  * user-content.vue
 -->
 <template>
+  <!-- 用户内容 -->
   <div class="content">
     <div class="header">头部</div>
     <div class="table">表格</div>
