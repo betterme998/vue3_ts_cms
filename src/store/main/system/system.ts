@@ -1,14 +1,18 @@
-import { postUsersListData } from '@/service/main/system/sysyem'
+import { postUsersListData } from '@/service/main/system/system'
 import { defineStore } from 'pinia'
 
 const userSystemStore = defineStore('system', {
   state: () => ({
-    usersList: []
+    usersList: [],
+    usersTotalCount: 0
   }),
   actions: {
     async postUsersListActive() {
       const userListResult = await postUsersListData()
-      console.log(userListResult)
+      const { totalCount, list } = userListResult.data.data
+      this.usersTotalCount = totalCount
+      this.usersList = list
+      console.log(totalCount, list)
     }
   }
 })
