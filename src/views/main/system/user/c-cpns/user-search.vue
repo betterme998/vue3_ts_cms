@@ -60,24 +60,31 @@
 <script setup lang="ts">
 import type { ElForm } from 'element-plus'
 import { reactive, ref } from 'vue'
+// 定义自定义事件
+const emit = defineEmits(['queryClick', 'resetClick'])
 
+// 定义form表单数据
 const searchForm = reactive({
   name: '',
   realname: '',
   cellphone: '',
   enable: 1,
-  createAt: []
+  createAt: ''
 })
 
 // 1.重置操作
 const formRef = ref<InstanceType<typeof ElForm>>()
 function handleResetClick() {
-  // 内置方法，当有值时调用重置
+  // 内置方法，form中的数据全部重置
   formRef.value?.resetFields()
+
+  // 2.将事件传递出去，发送网络请求
+  emit('resetClick')
 }
 // 2.查询方法
+// 先将方法发送出去，在父组件中调用，在通过父组件转到子组件中调用（查询方法在兄弟组件）
 function handleQueryClick() {
-  console.log('查询')
+  emit('queryClick', searchForm)
 }
 </script>
 <style lang="less" scoped>

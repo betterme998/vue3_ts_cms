@@ -9,7 +9,7 @@
   <div class="content">
     <div class="header">
       <h3 class="title">用户列表</h3>
-      <el-button type="primary">新建用户</el-button>
+      <el-button type="primary" @click="handleNewUserClick">新建用户</el-button>
     </div>
     <div class="table">
       <el-table :data="usersList" style="width: 100%">
@@ -38,8 +38,17 @@
         </el-table-column>
 
         <el-table-column align="center" label="操作" width="160px">
-          <el-button size="small" icon="Edit" type="primary" text>编辑</el-button>
-          <el-button size="small" icon="Delete" type="danger" text>删除</el-button>
+          <template #default="scope">
+            <el-button size="small" icon="Edit" type="primary" text>编辑</el-button>
+            <el-button
+              size="small"
+              icon="Delete"
+              type="danger"
+              text
+              @click="handleDeleteBtnClick(scope.row.id)"
+              >删除</el-button
+            >
+          </template>
         </el-table-column>
       </el-table>
     </div>
@@ -48,9 +57,8 @@
         v-model:current-page="currentPage"
         v-model:page-size="pageSize"
         :page-sizes="[10, 20, 30]"
-        small="small"
         layout="total, sizes, prev, pager, next, jumper"
-        :total="400"
+        :total="usersTotalCount"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
       />
@@ -64,22 +72,55 @@ import { storeToRefs } from 'pinia'
 import userSystemStore from '@/store/main/system/system'
 import { formatUTC } from '@/utils/format'
 
+// 定义事件
+const emit = defineEmits(['newClick'])
+
 // 1.发起active，请求usersList的数据
 const systemStore = userSystemStore()
-systemStore.postUsersListActive()
-
-// 2.获取userList数据，进行展示
-const { usersList } = storeToRefs(systemStore)
-
-// 3.页码相关逻辑
 const currentPage = ref(1)
 const pageSize = ref(10)
+fetchUserListData()
+
+// 2.获取userList数据，进行展示
+const { usersList, usersTotalCount } = storeToRefs(systemStore)
+
+// 3.页码相关逻辑
 function handleSizeChange() {
-  console.log(pageSize.value)
+  fetchUserListData()
 }
 function handleCurrentChange() {
-  console.log(currentPage.value)
+  fetchUserListData()
 }
+
+// 4.定义函数发送网络请求
+function fetchUserListData(formDate: any = {}) {
+  // 1.获取offset/size
+  const size = pageSize.value
+  const offset = (currentPage.value - 1) * size
+  const pageInfo = { size, offset }
+
+  // 发起网络请求
+  // 2.获取查询条件
+  const queryInfo = { ...pageInfo, ...formDate }
+
+  systemStore.postUsersListActive(queryInfo)
+}
+
+// 5.编辑和删除的操作
+function handleDeleteBtnClick(id: number) {
+  systemStore.deieteUserByIdAction(id)
+}
+
+// 6.新建用户
+
+function handleNewUserClick() {
+  // 修改兄弟组件，先发出事情给父组件，再由父组件进行修改
+  console.log('123')
+
+  emit('newClick')
+}
+
+defineExpose({ fetchUserListData })
 </script>
 
 <style lang="less" scoped>
@@ -107,5 +148,11 @@ function handleCurrentChange() {
     margin-left: 0;
     padding: 5px 8px;
   }
+}
+
+.pagination {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
 }
 </style>
