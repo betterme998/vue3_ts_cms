@@ -83,7 +83,7 @@ fetchUserListData()
 
 // 2.获取userList数据，进行展示
 const { usersList, usersTotalCount } = storeToRefs(systemStore)
-
+console.log(usersList)
 // 3.页码相关逻辑
 function handleSizeChange() {
   fetchUserListData()

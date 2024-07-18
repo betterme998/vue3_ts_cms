@@ -1,7 +1,28 @@
 <template>
   <div class="modal">
     <el-dialog v-model="dialogVisible" title="新建用户" width="30%" center>
-      <span> It should be noted that the content will not be aligned in center by default </span>
+      <div class="form">
+        <el-form :model="formData" label-width="80px" size="large">
+          <el-form-item label="用户名" prop="name">
+            <el-input v-model="formData.name" placeholder="请输入用户名"></el-input>
+          </el-form-item>
+          <el-form-item label="真实姓名" prop="realname">
+            <el-input v-model="formData.realname" placeholder="请输入真实姓名"></el-input>
+          </el-form-item>
+          <el-form-item label="密码" prop="password">
+            <el-input v-model="formData.password" placeholder="请输入密码" show-password></el-input>
+          </el-form-item>
+          <el-form-item label="手机号码" prop="cellphone">
+            <el-input v-model="formData.cellphone" placeholder="请输入手机号码"></el-input>
+          </el-form-item>
+          <el-form-item label="选择角色" prop="roleId">
+            <el-input v-model="formData.roleId" placeholder="请选择角色"></el-input>
+          </el-form-item>
+          <el-form-item label="选择部门" prop="departmentId">
+            <el-input v-model="formData.departmentId" placeholder="请选择部门"></el-input>
+          </el-form-item>
+        </el-form>
+      </div>
       <template #footer>
         <div class="dialog-footer">
           <el-button @click="dialogVisible = false">取消</el-button>
@@ -13,10 +34,18 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { reactive, ref } from 'vue'
 
 // 1.定义内部的属性
 const dialogVisible = ref(true)
+const formData = reactive({
+  name: '',
+  realname: '',
+  password: '',
+  cellphone: '',
+  roleId: '',
+  departmentId: ''
+})
 
 // 2.定义设置dialogVisible方法
 function setModalVisible() {
@@ -27,4 +56,8 @@ function setModalVisible() {
 defineExpose({ setModalVisible })
 </script>
 
-<style scoped lang="less"></style>
+<style scoped lang="less">
+.form {
+  padding: 0 20px;
+}
+</style>
