@@ -39,7 +39,14 @@
 
         <el-table-column align="center" label="操作" width="160px">
           <template #default="scope">
-            <el-button size="small" icon="Edit" type="primary" text>编辑</el-button>
+            <el-button
+              size="small"
+              icon="Edit"
+              type="primary"
+              text
+              @click="handleEditBtnClick(scope.row)"
+              >编辑</el-button
+            >
             <el-button
               size="small"
               icon="Delete"
@@ -83,7 +90,6 @@ fetchUserListData()
 
 // 2.获取userList数据，进行展示
 const { usersList, usersTotalCount } = storeToRefs(systemStore)
-console.log(usersList)
 // 3.页码相关逻辑
 function handleSizeChange() {
   fetchUserListData()
@@ -106,17 +112,18 @@ function fetchUserListData(formDate: any = {}) {
   systemStore.postUsersListActive(queryInfo)
 }
 
-// 5.编辑和删除的操作
+// 5.删除/编辑/新建的操作
 function handleDeleteBtnClick(id: number) {
+  //删除
   systemStore.deieteUserByIdAction(id)
 }
-
-// 6.新建用户
-
+function handleEditBtnClick(scope: any) {
+  //编辑
+  console.log(scope.row)
+}
 function handleNewUserClick() {
+  //新建
   // 修改兄弟组件，先发出事情给父组件，再由父组件进行修改
-  console.log('123')
-
   emit('newClick')
 }
 

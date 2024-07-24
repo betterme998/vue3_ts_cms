@@ -16,17 +16,25 @@
             <el-input v-model="formData.cellphone" placeholder="请输入手机号码"></el-input>
           </el-form-item>
           <el-form-item label="选择角色" prop="roleId">
-            <el-input v-model="formData.roleId" placeholder="请选择角色"></el-input>
+            <el-select v-model="formData.roleId" placeholder="请选择角色" style="width: 100%">
+              <template v-for="item in entireRoles" :key="item.id">
+                <el-option :label="item.name" :value="item.id"></el-option>
+              </template>
+            </el-select>
           </el-form-item>
-          <el-form-item label="选择部门" prop="departmentId">
-            <el-input v-model="formData.departmentId" placeholder="请选择部门"></el-input>
+          <el-form-item label="选择部门" prop="departmentId" style="width: 100%">
+            <el-select v-model="formData.departmentId" placeholder="请选择部门" style="width: 100%">
+              <template v-for="item in entireDepartments" :key="item.id">
+                <el-option :label="item.name" :value="item.id"></el-option>
+              </template>
+            </el-select>
           </el-form-item>
         </el-form>
       </div>
       <template #footer>
         <div class="dialog-footer">
           <el-button @click="dialogVisible = false">取消</el-button>
-          <el-button type="primary" @click="dialogVisible = false"> 确定 </el-button>
+          <el-button type="primary" @click="handleConfirmClick()"> 确定 </el-button>
         </div>
       </template>
     </el-dialog>
@@ -35,9 +43,12 @@
 
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
+import { storeToRefs } from 'pinia'
+import useMainStore from '@/store/main/main'
+import userSystemStore from '@/store/main/system/system'
 
 // 1.定义内部的属性
-const dialogVisible = ref(true)
+const dialogVisible = ref(false)
 const formData = reactive({
   name: '',
   realname: '',
@@ -47,11 +58,23 @@ const formData = reactive({
   departmentId: ''
 })
 
+// 2.获取roles/deparments数据
+const mainStore = useMainStore()
+const systemStore = userSystemStore()
+const { entireRoles, entireDepartments } = storeToRefs(mainStore)
+console.log(entireRoles, entireDepartments)
+
 // 2.定义设置dialogVisible方法
 function setModalVisible() {
   dialogVisible.value = true
 }
 
+// 3.点击了确定逻辑
+function handleConfirmClick() {
+  dialogVisible.value = false
+  // 创建新用户
+  systemStore.newUserDataAction(formData)
+}
 // 暴露的属性和方法
 defineExpose({ setModalVisible })
 </script>
