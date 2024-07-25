@@ -2,33 +2,20 @@
   <div class="modal">
     <el-dialog
       v-model="dialogVisible"
-      :title="isNewRef ? '新建用户' : '编辑用户'"
+      :title="isNewRef ? '新建部门' : '编辑部门'"
       width="30%"
       center
     >
       <div class="form">
         <el-form :model="formData" label-width="80px" size="large">
-          <el-form-item label="用户名" prop="name">
-            <el-input v-model="formData.name" placeholder="请输入用户名"></el-input>
+          <el-form-item label="部门名称" prop="name">
+            <el-input v-model="formData.name" placeholder="请输入部门名称"></el-input>
           </el-form-item>
-          <el-form-item label="真实姓名" prop="realname">
-            <el-input v-model="formData.realname" placeholder="请输入真实姓名"></el-input>
+          <el-form-item label="部门领导" prop="leader">
+            <el-input v-model="formData.leader" placeholder="请输入部门领导"></el-input>
           </el-form-item>
-          <el-form-item v-if="isNewRef" label="密码" prop="password">
-            <el-input v-model="formData.password" placeholder="请输入密码" show-password></el-input>
-          </el-form-item>
-          <el-form-item label="手机号码" prop="cellphone">
-            <el-input v-model="formData.cellphone" placeholder="请输入手机号码"></el-input>
-          </el-form-item>
-          <el-form-item label="选择角色" prop="roleId">
-            <el-select v-model="formData.roleId" placeholder="请选择角色" style="width: 100%">
-              <template v-for="item in entireRoles" :key="item.id">
-                <el-option :label="item.name" :value="item.id"></el-option>
-              </template>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="选择部门" prop="departmentId" style="width: 100%">
-            <el-select v-model="formData.departmentId" placeholder="请选择部门" style="width: 100%">
+          <el-form-item label="选择部门" prop="parentId" style="width: 100%">
+            <el-select v-model="formData.parentId" placeholder="请选择部门" style="width: 100%">
               <template v-for="item in entireDepartments" :key="item.id">
                 <el-option :label="item.name" :value="item.id"></el-option>
               </template>
@@ -58,11 +45,8 @@ const dialogVisible = ref(false)
 // 2.定义表单数据,设置<any>类型，因为formData[key] = itemData[key]行代码会
 const formData = reactive<any>({
   name: '',
-  realname: '',
-  password: '',
-  cellphone: '',
-  roleId: '',
-  departmentId: ''
+  leader: '',
+  parentId: ''
 })
 // 控制编辑/新建时，密码框是否显示
 const isNewRef = ref(true)
@@ -71,8 +55,8 @@ const editData = ref()
 // 2.获取roles/deparments数据
 const mainStore = useMainStore()
 const systemStore = userSystemStore()
-const { entireRoles, entireDepartments } = storeToRefs(mainStore)
-console.log(entireRoles, entireDepartments)
+const { entireDepartments } = storeToRefs(mainStore)
+console.log(entireDepartments)
 
 // 2.定义设置dialogVisible方法
 // 控制新建/编辑弹窗，接受两个参数，isNew：是否新建，itemData：编辑数据
@@ -98,11 +82,11 @@ function setModalVisible(isNew: boolean = true, itemData?: any) {
 function handleConfirmClick() {
   dialogVisible.value = false
   if (!isNewRef.value && editData.value) {
-    // 编辑用户
-    systemStore.editUserDataAction(editData.value.id, formData)
+    // 编辑部门
+    systemStore.editPageDataAction('department', editData.value.id, formData)
   } else {
-    // 创建新用户
-    systemStore.newUserDataAction(formData)
+    // 创建新部门
+    systemStore.newPageDataAction('department', formData)
   }
 }
 // 暴露的属性和方法

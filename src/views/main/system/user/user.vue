@@ -9,7 +9,7 @@
     <!-- 监听子组件自定义事件查询 -->
     <user-search @query-click="handleQueryClick" @reset-click="handleResetClick" />
     <!-- 父组件调用子组件方法，子组件需要把方法暴露出来 -->
-    <user-content ref="contentRef" @new-click="handleNewBtnClick" />
+    <user-content ref="contentRef" @new-click="handleBtnClick" @edit-click="handleEditClick" />
     <user-modal ref="modalRef" />
   </div>
 </template>
@@ -35,8 +35,11 @@ function handleResetClick() {
 
 // 对modal组件进行操作
 const modalRef = ref<InstanceType<typeof UserModal>>()
-function handleNewBtnClick() {
+function handleBtnClick() {
   modalRef.value?.setModalVisible()
+}
+function handleEditClick(itemData: any) {
+  modalRef.value?.setModalVisible(false, itemData)
 }
 </script>
 <style lang="less" scoped>

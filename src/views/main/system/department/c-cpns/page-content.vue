@@ -1,31 +1,17 @@
-<!--
- * content
- * @author: betterme998
- * @since: 2023-10-25
- * user-content.vue
--->
 <template>
   <!-- 用户内容 -->
   <div class="content">
     <div class="header">
-      <h3 class="title">用户列表</h3>
-      <el-button type="primary" @click="handleNewUserClick">新建用户</el-button>
+      <h3 class="title">部门列表</h3>
+      <el-button type="primary" @click="handleNewUserClick">新建部门</el-button>
     </div>
     <div class="table">
-      <el-table :data="usersList" style="width: 100%">
+      <el-table :data="pageList" style="width: 100%">
         <el-table-column align="center" type="selection" width="50px" />
         <el-table-column align="center" type="index" label="序号" width="60px" />
-        <el-table-column align="center" prop="name" label="用户名" width="150px" />
-        <el-table-column align="center" prop="name" label="真实姓名" width="150px" />
-        <el-table-column align="center" prop="cellphone" label="手机号码" width="150px" />
-        <el-table-column align="center" prop="enable" label="状态" width="100px">
-          <!-- 作用域插槽 -->
-          <template #default="scope">
-            <el-button size="small" :type="scope.row.enable ? 'primary' : 'danger'" plain>
-              {{ scope.row.enable ? '启动' : '禁用' }}
-            </el-button>
-          </template>
-        </el-table-column>
+        <el-table-column align="center" prop="name" label="部门名称" width="150px" />
+        <el-table-column align="center" prop="leader" label="部门领导" width="150px" />
+        <el-table-column align="center" prop="parentId" label="上级部门" width="150px" />
         <el-table-column align="center" prop="createAt" label="创建时间">
           <template #default="scope">
             {{ formatUTC(scope.row.createAt) }}
@@ -65,7 +51,7 @@
         v-model:page-size="pageSize"
         :page-sizes="[10, 20, 30]"
         layout="total, sizes, prev, pager, next, jumper"
-        :total="usersTotalCount"
+        :total="pageTotalCount"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
       />
@@ -86,20 +72,20 @@ const emit = defineEmits(['newClick', 'editClick'])
 const systemStore = userSystemStore()
 const currentPage = ref(1)
 const pageSize = ref(10)
-fetchUserListData()
+fetchPageListData()
 
-// 2.获取userList数据，进行展示
-const { usersList, usersTotalCount } = storeToRefs(systemStore)
+// 2.获取pageList数据，进行展示
+const { pageList, pageTotalCount } = storeToRefs(systemStore)
 // 3.页码相关逻辑
 function handleSizeChange() {
-  fetchUserListData()
+  fetchPageListData()
 }
 function handleCurrentChange() {
-  fetchUserListData()
+  fetchPageListData()
 }
 
 // 4.定义函数发送网络请求
-function fetchUserListData(formDate: any = {}) {
+function fetchPageListData(formDate: any = {}) {
   // 1.获取offset/size
   const size = pageSize.value
   const offset = (currentPage.value - 1) * size
@@ -109,13 +95,13 @@ function fetchUserListData(formDate: any = {}) {
   // 2.获取查询条件
   const queryInfo = { ...pageInfo, ...formDate }
 
-  systemStore.postUsersListActive(queryInfo)
+  systemStore.postPageListAction('department', queryInfo)
 }
 
 // 5.删除/编辑/新建的操作
 function handleDeleteBtnClick(id: number) {
   //删除
-  systemStore.deieteUserByIdAction(id)
+  systemStore.deletePageByIdAction('department', id)
 }
 function handleEditBtnClick(itemData: any) {
   //编辑
@@ -127,7 +113,7 @@ function handleNewUserClick() {
   emit('newClick')
 }
 
-defineExpose({ fetchUserListData })
+defineExpose({ fetchPageListData })
 </script>
 
 <style lang="less" scoped>
