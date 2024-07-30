@@ -43,6 +43,8 @@ declare module 'vue' {
     HeaderInfo: typeof import('./components/main-header/c-cpns/header-info.vue')['default']
     MainHeader: typeof import('./components/main-header/main-header.vue')['default']
     MainMenu: typeof import('./components/main-menu/main-menu.vue')['default']
+    PageContent: typeof import('./components/page-content/page-content.vue')['default']
+    PageModal: typeof import('./components/page-modal/page-modal.vue')['default']
     PageSearch: typeof import('./components/page-search/page-search.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
