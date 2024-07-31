@@ -1,4 +1,5 @@
-const modalConfig = {
+import type { IModalConfig } from '@/components/page-modal/type'
+const modalConfig: IModalConfig = {
   header: {
     newTitle: '新建部门',
     editTitle: '编辑部门'
@@ -11,11 +12,14 @@ const modalConfig = {
       placeholder: '请输入部门名称'
     },
     { type: 'input', label: '部门领导', prop: 'leader', placeholder: '请输入部门领导' },
-    { type: 'select', label: '上级部门', prop: 'parentId', placeholder: '请选择部门' }
-  ],
-  options: [
-    { label: '财务部', value: 111 },
-    { label: '保安部', value: 122 }
+    {
+      type: 'select',
+      label: '上级部门',
+      prop: 'parentId',
+      placeholder: '请选择部门',
+      // 这部分数据是网络请求的，需要特殊处理
+      options: []
+    }
   ]
 }
 
