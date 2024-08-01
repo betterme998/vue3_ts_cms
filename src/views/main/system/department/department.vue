@@ -34,6 +34,8 @@ import PageSearch from '@/components/page-search/page-search.vue'
 import PageContent from '@/components/page-content/page-content.vue'
 import PageModal from '@/components/page-modal/page-modal.vue'
 import useMainStore from '@/store/main/main'
+import usePageContent from '@/hooks/usePageContent'
+import usePageModal from '@/hooks/usePageModal'
 
 // 导入配置文件
 import searchConfig from './config/search.config.ts'
@@ -56,22 +58,12 @@ const modalConfigRef = computed(() => {
 })
 
 // 点击了search，content的操作
-const contentRef = ref<InstanceType<typeof PageContent>>()
-function handleQueryClick(queryInfo: any) {
-  contentRef.value?.fetchPageListData(queryInfo)
-}
-function handleResetClick() {
-  contentRef.value?.fetchPageListData()
-}
+// 使用了hooks
+const { contentRef, handleQueryClick, handleResetClick } = usePageContent()
 
 // 点击conter，modal的操作
-const modalRef = ref<InstanceType<typeof PageModal>>()
-function handleNewClick() {
-  modalRef.value?.setModalVisible()
-}
-function handleEditClick(itemData: any) {
-  modalRef.value?.setModalVisible(false, itemData)
-}
+// setup相同的逻辑的抽取：hooks
+const { modalRef, handleNewClick, handleEditClick } = usePageModal()
 </script>
 <style lang="less" scoped>
 .department {

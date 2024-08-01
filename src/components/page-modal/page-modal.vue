@@ -54,16 +54,7 @@ import { storeToRefs } from 'pinia'
 import useMainStore from '@/store/main/main'
 import userSystemStore from '@/store/main/system/system'
 // 0.定义props
-// import type { IModalProps } from './type'
-export interface IModalProps {
-  modalConfig: {
-    header: {
-      newTitle: string
-      editTitle: string
-    }
-    formItems: any[]
-  }
-}
+import type { IModalProps } from './type'
 
 const props = defineProps<IModalProps>()
 
@@ -111,10 +102,10 @@ function handleConfirmClick() {
   dialogVisible.value = false
   if (!isNewRef.value && editData.value) {
     // 编辑部门
-    systemStore.editPageDataAction('department', editData.value.id, formData)
+    systemStore.editPageDataAction(props.modalConfig.pageName, editData.value.id, formData)
   } else {
     // 创建新部门
-    systemStore.newPageDataAction('department', formData)
+    systemStore.newPageDataAction(props.modalConfig.pageName, formData)
   }
 }
 // 暴露的属性和方法
