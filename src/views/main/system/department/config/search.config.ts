@@ -14,16 +14,17 @@ const searchConfig = {
       label: '部门领导',
       placeholder: '请输入查询的部门领导'
     },
-    {
-      type: 'select',
-      prop: 'enable',
-      label: '状态',
-      placeholder: '请输选择查询的状态',
-      options: [
-        { label: '启用', value: 1 },
-        { label: '禁用', value: 0 }
-      ]
-    },
+    // {
+    //   type: 'select',
+    //   prop: 'enable',
+    //   label: '状态',
+    //   placeholder: '请输选择查询的状态',
+    //   initialValue: 1,
+    //   options: [
+    //     { label: '启用', value: 1 },
+    //     { label: '禁用', value: 0 }
+    //   ]
+    // },
     {
       type: 'date-picker',
       prop: 'createAt',

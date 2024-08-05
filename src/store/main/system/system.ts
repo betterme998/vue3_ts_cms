@@ -53,9 +53,8 @@ const userSystemStore = defineStore('system', {
 
     /** 针对所有页面的数据： 增删改查 **/
     async postPageListAction(pageName: string, queryInfo: any) {
-      console.log(pageName, queryInfo)
-
       const pageListResult = await postPageListData(pageName, queryInfo)
+      console.log(pageListResult)
 
       const { totalCount, list } = pageListResult.data.data
 

@@ -39,7 +39,7 @@
     <!-- 2.重置和搜索的按钮 -->
     <div class="btns">
       <el-button icon="Refresh" @click="handleResetClick">重置</el-button>
-      <el-button icon="Search" type="primary" @click="handleQueryClick()">查询</el-button>
+      <el-button icon="Search" type="primary" @click="handleQueryClick">查询</el-button>
     </div>
   </div>
 </template>
@@ -58,6 +58,7 @@ const props = defineProps<IProps>()
 
 // 定义form表单数据
 const initialForm: any = {}
+
 for (const item of props.searchConfig.formItems) {
   initialForm[item.prop] = item.initialValue ?? ''
 }
@@ -75,6 +76,8 @@ function handleResetClick() {
 // 2.查询方法
 // 先将方法发送出去，在父组件中调用，在通过父组件转到子组件中调用（查询方法在兄弟组件）
 function handleQueryClick() {
+  console.log(searchForm.createAt)
+
   emit('queryClick', searchForm)
 }
 </script>
