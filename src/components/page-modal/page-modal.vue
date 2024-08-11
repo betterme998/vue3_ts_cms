@@ -90,7 +90,7 @@ function setModalVisible(isNew: boolean = true, itemData?: any) {
     //新建数据
     for (const key in formData) {
       // 初始化值
-      const item = props.modalConfig.formItems.find((item: any) => item.prop === key)
+      const item = props.modalConfig.formItems.find((item) => item.prop === key)
       formData[key] = item ? item.initialValue : ''
     }
     editData.value = null
