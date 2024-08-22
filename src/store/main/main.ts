@@ -20,6 +20,7 @@ const useMainStore = defineStore('main', {
       // 保存数据
       this.entireRoles = rolesResult.data.data.list
       this.entireDepartments = departmentsResult.data.data.list
+      console.log(this.entireRoles, this.entireDepartments)
     }
   }
 })

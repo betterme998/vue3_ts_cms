@@ -54,12 +54,9 @@ const userSystemStore = defineStore('system', {
     /** 针对所有页面的数据： 增删改查 **/
     async postPageListAction(pageName: string, queryInfo: any) {
       const pageListResult = await postPageListData(pageName, queryInfo)
-      console.log(pageListResult)
-
       const { totalCount, list } = pageListResult.data.data
-
       this.pageList = list
-      this.pageTotalCount = totalCount
+      this.pageTotalCount = totalCount ? totalCount : list.length
     },
     async deletePageByIdAction(pageName: string, id: number) {
       // 1.删除数据操作

@@ -11,7 +11,11 @@
           <template v-for="item in modalConfig.formItems" :key="item.prop">
             <el-form-item :label="item.label" :prop="item.name">
               <template v-if="item.type === 'input'">
-                <el-input v-model="formData[item.prop]" :placeholder="item.placeholder" />
+                <el-input
+                  v-model="formData[item.prop]"
+                  :placeholder="item.placeholder"
+                  :show-password="item.showPassword"
+                />
               </template>
               <template v-if="item.type === 'date-picker'">
                 <el-date-picker
@@ -105,6 +109,8 @@ function handleConfirmClick() {
     systemStore.editPageDataAction(props.modalConfig.pageName, editData.value.id, formData)
   } else {
     // 创建新部门
+    console.log(formData)
+
     systemStore.newPageDataAction(props.modalConfig.pageName, formData)
   }
 }
