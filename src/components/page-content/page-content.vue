@@ -8,7 +8,8 @@
       </el-button>
     </div>
     <div class="table">
-      <el-table :data="pageList" style="width: 100%">
+      <!-- 表格,绑定是否展开列 -->
+      <el-table :data="pageList" style="width: 100%" v-bind="contentConfig.childrenTree">
         <template v-for="(item, index) in contentConfig.propsList" :key="index">
           <!-- timer，handler都是比较公共的封装，所以不用定制直接写 -->
           <template v-if="item.type === 'timer'">
@@ -84,6 +85,7 @@ interface IProps {
       brnTitle?: string
     }
     propsList: any[]
+    childrenTree?: any[]
   }
 }
 const props = defineProps<IProps>()

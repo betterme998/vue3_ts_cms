@@ -37,6 +37,9 @@
                   </template>
                 </el-select>
               </template>
+              <template v-if="item.type === 'custom'">
+                <slot :name="item.slotName"></slot>
+              </template>
             </el-form-item>
           </template>
         </el-form>
@@ -104,6 +107,12 @@ function setModalVisible(isNew: boolean = true, itemData?: any) {
 // 3.点击了确定逻辑
 function handleConfirmClick() {
   dialogVisible.value = false
+
+  let infoData = formData
+  // 如果存在传递的额外数据，则合并数据
+  if (props.otherInfo) {
+    infoData = { ...infoData, ...props.otherInfo }
+  }
   if (!isNewRef.value && editData.value) {
     // 编辑部门
     systemStore.editPageDataAction(props.modalConfig.pageName, editData.value.id, formData)

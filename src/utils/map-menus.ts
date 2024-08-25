@@ -83,3 +83,20 @@ export function mapPathToBteadcrumbs(path: string, userMenus: any[]) {
   }
   return breadcrumbs
 }
+
+//处理角色菜单id （从嵌套对象中抽取id值成组件,不选父id，只选子id，因为element-ui的tree组件选择子选项，父选项也会被选中）
+export function mapMenuListToIds(menuList: any[]) {
+  const ids: number[] = []
+
+  function recurseGetId(menus: any[]) {
+    for (const item of menus) {
+      if (item.children) {
+        recurseGetId(item.children)
+      } else {
+        ids.push(item.id)
+      }
+    }
+  }
+  recurseGetId(menuList)
+  return ids
+}

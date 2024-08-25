@@ -56,6 +56,8 @@ const userSystemStore = defineStore('system', {
       const pageListResult = await postPageListData(pageName, queryInfo)
       const { totalCount, list } = pageListResult.data.data
       this.pageList = list
+      console.log(list)
+
       this.pageTotalCount = totalCount ? totalCount : list.length
     },
     async deletePageByIdAction(pageName: string, id: number) {

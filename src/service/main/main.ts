@@ -13,3 +13,10 @@ export function getEntireDepartments() {
     url: '/department/list'
   })
 }
+
+// 获取全部菜单信息
+export function getEntireMenus() {
+  return hyRequest.post({
+    url: '/menu/list'
+  })
+}
