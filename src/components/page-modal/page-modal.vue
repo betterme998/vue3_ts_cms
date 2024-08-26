@@ -115,12 +115,11 @@ function handleConfirmClick() {
   }
   if (!isNewRef.value && editData.value) {
     // 编辑部门
-    systemStore.editPageDataAction(props.modalConfig.pageName, editData.value.id, formData)
+    systemStore.editPageDataAction(props.modalConfig.pageName, editData.value.id, infoData)
   } else {
     // 创建新部门
-    console.log(formData)
 
-    systemStore.newPageDataAction(props.modalConfig.pageName, formData)
+    systemStore.newPageDataAction(props.modalConfig.pageName, infoData)
   }
 }
 // 暴露的属性和方法

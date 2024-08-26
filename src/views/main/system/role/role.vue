@@ -73,9 +73,9 @@ function handleElTreeCheck(data1: any, data2: any) {
 // 让抽成了hooks方法里的数据传出，
 function editCallback(itemData: any) {
   // 调用组件的回方法设置目前选中的节点，使用此方法必须设置 node-key 属性
+  // nextTick是宏任务还是微任务？：微任务
   nextTick(() => {
     const menuIds = mapMenuListToIds(itemData.menuList)
-    console.log(itemData.menuList)
 
     treeRef.value?.setCheckedKeys(menuIds)
   })
