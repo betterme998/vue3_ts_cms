@@ -3,7 +3,7 @@
   <div class="content">
     <div class="header">
       <h3 class="title">{{ contentConfig?.header?.title ?? '数据列表' }}</h3>
-      <el-button type="primary" @click="handleNewUserClick">
+      <el-button v-if="isCreate" type="primary" @click="handleNewUserClick">
         {{ contentConfig?.header?.brnTitle ?? '新建数据' }}
       </el-button>
     </div>
@@ -23,6 +23,7 @@
             <el-table-column align="center" v-bind="item">
               <template #default="scope">
                 <el-button
+                  v-if="isUpdate"
                   size="small"
                   icon="Edit"
                   type="primary"
@@ -31,6 +32,7 @@
                   >编辑</el-button
                 >
                 <el-button
+                  v-if="isDelete"
                   size="small"
                   icon="Delete"
                   type="danger"
@@ -72,10 +74,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, toRef } from 'vue'
 import { storeToRefs } from 'pinia'
 import userSystemStore from '@/store/main/system/system'
 import { formatUTC } from '@/utils/format'
+import usePermissions from '@/hooks/usePermissions'
 
 interface IProps {
   contentConfig: {
@@ -92,6 +95,13 @@ const props = defineProps<IProps>()
 
 // 定义事件
 const emit = defineEmits(['newClick', 'editClick'])
+
+// 0.获取是否有对应的增删改查的权限
+// hooks函数用于判断是否有对应的增删改查的权限，参数是动态的，通过每个页面的配置传递过来的pageName控制，
+const isCreate = usePermissions(toRef(props, 'contentConfig').value.pageName + ':create')
+const isDelete = usePermissions(toRef(props, 'contentConfig').value.pageName + ':delete')
+const isUpdate = usePermissions(toRef(props, 'contentConfig').value.pageName + ':update')
+const isQuery = usePermissions(toRef(props, 'contentConfig').value.pageName + ':query')
 
 // 1.发起active，请求usersList的数据
 const systemStore = userSystemStore()
@@ -111,6 +121,8 @@ function handleCurrentChange() {
 
 // 4.定义函数发送网络请求
 function fetchPageListData(formDate: any = {}) {
+  // 如果没有查询权限，则直接return
+  if (!isQuery) return
   // 1.获取offset/size
   const size = pageSize.value
   const offset = (currentPage.value - 1) * size

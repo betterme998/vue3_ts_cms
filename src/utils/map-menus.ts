@@ -36,6 +36,7 @@ export function mapMenusToRoutes(userMenus: any[]) {
       const route = localRouter.find((item) => item.path === submenu.url)
       if (route) {
         // 1.给route的顶层菜单加一个重定向功能（但是只需要添加一次即可）（在点击面包屑的第一个标签时，跳转到匹配到的该菜单的第一个子菜单）
+        // 3.1判断是否已经添加过顶层菜单的路由，相当于进入/main页面时，默认进入第一个子菜单）
         if (!routes.find((item) => item.path === menu.url)) {
           routes.push({ path: menu.url, redirect: route.path })
         }
@@ -99,4 +100,21 @@ export function mapMenuListToIds(menuList: any[]) {
   }
   recurseGetId(menuList)
   return ids
+}
+
+// 从菜单中映射出用户所有按钮权限
+export function mapMenuListToPermissions(menuList: any[]) {
+  const permissions: string[] = []
+  // 递归
+  function recurseGetPermission(menus: any[]) {
+    for (const item of menus) {
+      if (item.type === 3) {
+        permissions.push(item.permission)
+      } else {
+        recurseGetPermission(item.children ?? [])
+      }
+    }
+  }
+  recurseGetPermission(menuList)
+  return permissions
 }

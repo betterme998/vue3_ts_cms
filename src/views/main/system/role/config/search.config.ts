@@ -1,5 +1,6 @@
 // 配置文件 用来配置部门管理页面 需要那些搜索框
 const searchConfig = {
+  pageName: 'role',
   formItems: [
     {
       type: 'input',

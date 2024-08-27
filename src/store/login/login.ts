@@ -5,13 +5,14 @@ import { localCache } from '@/utils/cache'
 import router from '@/router'
 import { LOGIN_TOKEN } from '@/global/constants'
 import type { RouteRecordRaw } from 'vue-router'
-import { mapMenusToRoutes } from '@/utils/map-menus'
+import { mapMenuListToPermissions, mapMenusToRoutes } from '@/utils/map-menus'
 import useMainStore from '../main/main'
 
 interface ILoginState {
   token: string
   userInfo: any
   userMenus: any
+  permissions: string[]
 }
 
 const useLoginStore = defineStore('login', {
@@ -19,7 +20,8 @@ const useLoginStore = defineStore('login', {
   state: (): ILoginState => ({
     token: '',
     userInfo: {},
-    userMenus: []
+    userMenus: [],
+    permissions: []
   }),
   actions: {
     async loginAccountAction(account: IAccount) {
@@ -54,6 +56,10 @@ const useLoginStore = defineStore('login', {
       const mainStore = useMainStore()
       mainStore.fetchEntireDataAction()
 
+      // 重要：获取登录用户的所有按钮权限
+      // 用户的权限也在返回的菜单当中，需要通过方法抽取出来，并存入store中
+      const permissions = mapMenuListToPermissions(userMenus)
+      this.permissions = permissions
       // 5.重要：动态添加路由
       const routes = mapMenusToRoutes(userMenus)
 
@@ -77,6 +83,10 @@ const useLoginStore = defineStore('login', {
         // 1.请求所有角色/部门数据(roles/departments)数据
         const mainStore = useMainStore()
         mainStore.fetchEntireDataAction()
+
+        // 2.获取登录用户的所有按钮权限
+        const permissions = mapMenuListToPermissions(userMenus)
+        this.permissions = permissions
 
         // 动态添加路由
         // 2.重要：动态添加路由
