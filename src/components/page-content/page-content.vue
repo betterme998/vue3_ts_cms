@@ -151,6 +151,25 @@ function handleNewUserClick() {
   emit('newClick')
 }
 
+// 6.监听systemStore中的active被执行
+// $onAction 监听store中所有的action执行,官网有
+systemStore.$onAction(({ name, after }) => {
+  // 当页面进行增删改时，会从新请求表单数据，（回到分页1）
+  // 所以对从增删改进行监听，当active执行时，将页码重置为1
+  // 但是要保证执行成功后，再重置页码
+
+  // after 当active执行成功后，执行回调函数
+  after(() => {
+    if (
+      name === 'deletePageByIdAction' ||
+      name === 'editPageDataAction' ||
+      name === 'newPageDataAction'
+    ) {
+      currentPage.value = 1
+    }
+  })
+})
+
 defineExpose({ fetchPageListData })
 </script>
 

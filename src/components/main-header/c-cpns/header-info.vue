@@ -24,7 +24,7 @@
       <el-dropdown>
         <span class="user-info">
           <el-avatar :size="30" :src="imgUrl" />
-          <span class="name">coderwhy</span>
+          <span class="name">{{ loginStore.userInfo.name }}</span>
         </span>
         <template #dropdown>
           <el-dropdown-menu>
@@ -52,12 +52,15 @@ import imgUrl from '@/assets/img/avatar.svg'
 import { useRouter } from 'vue-router'
 import { LOGIN_TOKEN } from '@/global/constants'
 import { localCache } from '@/utils/cache'
+import useLoginStore from '@/store/login/login'
 
 const router = useRouter()
 function handleExitClick() {
   localCache.removeCache(LOGIN_TOKEN)
   router.push('/login')
 }
+
+const loginStore = useLoginStore()
 </script>
 <style lang="less" scoped>
 .header-info {

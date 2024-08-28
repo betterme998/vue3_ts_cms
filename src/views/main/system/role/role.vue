@@ -56,7 +56,7 @@ import useMainStore from '@/store/main/main'
 
 // 逻辑关系
 const { contentRef, handleQueryClick, handleResetClick } = usePageContent()
-const { modalRef, handleNewClick, handleEditClick } = usePageModal(editCallback)
+const { modalRef, handleNewClick, handleEditClick } = usePageModal(newCallback, editCallback)
 
 // 获取菜单数据
 const mainStore = useMainStore()
@@ -70,6 +70,13 @@ function handleElTreeCheck(data1: any, data2: any) {
   otherInfo.value = { menuList }
 }
 
+// 新建时回调，用来清空弹窗的节点
+function newCallback() {
+  // 调用组件的回方法设置目前选中的节点，使用此方法必须设置 node-key 属性
+  nextTick(() => {
+    treeRef.value?.setCheckedKeys([])
+  })
+}
 // 让抽成了hooks方法里的数据传出，
 function editCallback(itemData: any) {
   // 调用组件的回方法设置目前选中的节点，使用此方法必须设置 node-key 属性

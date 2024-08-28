@@ -53,6 +53,7 @@ const userSystemStore = defineStore('system', {
     },
 
     /** 针对所有页面的数据： 增删改查 **/
+    // 当进行增删改查后会重新获取数据，分页也会变成第一页。在使用这些方法的地方监听他们来判断是否调用，从而控制分页变成1
     async postPageListAction(pageName: string, queryInfo: any) {
       const pageListResult = await postPageListData(pageName, queryInfo)
       const { totalCount, list } = pageListResult.data.data
