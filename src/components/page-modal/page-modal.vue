@@ -120,6 +120,7 @@ function handleConfirmClick() {
     // 创建新部门
 
     systemStore.newPageDataAction(props.modalConfig.pageName, infoData)
+    console.log(infoData)
   }
 }
 // 暴露的属性和方法

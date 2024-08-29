@@ -7,17 +7,22 @@
       </el-tooltip>
     </div>
     <div class="content">
-      <span class="count">{{ number1 }}</span>
+      <!-- 使用了动画库countup -->
+      <span ref="count1Ref">{{ number1 }}</span>
     </div>
     <div class="footer">
       <span>{{ subtitle }}</span>
-      <span>{{ number2 }}</span>
+      <span ref="count2Ref">{{ number2 }}</span>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { CountUp } from 'countup.js'
+import { ref, onMounted, toRef } from 'vue'
+
 interface Iprops {
+  amount?: string
   title?: string
   tips?: string
   number1?: number
@@ -25,12 +30,29 @@ interface Iprops {
   subtitle?: string
 }
 
-withDefaults(defineProps<Iprops>(), {
+// 默认值
+const props = withDefaults(defineProps<Iprops>(), {
   title: '商品总销量',
   tips: '所有商品的总销量',
   number1: 566669,
   number2: 566669,
   subtitle: '商品总销量'
+})
+
+// 创建CountUp实例
+const count1Ref = ref<HTMLElement | null>(null)
+const count2Ref = ref<HTMLElement | null>(null)
+// 参数一：要执行的动画元素
+// 参数二：数字增加到多少
+
+const countOption = {
+  prefix: toRef(props, 'amount').value === 'saleroom' ? '￥' : ''
+}
+onMounted(() => {
+  const countup1 = new CountUp(count1Ref.value!, props.number1, countOption)
+  const countup2 = new CountUp(count2Ref.value!, props.number2, countOption)
+  countup1.start()
+  countup2.start()
 })
 </script>
 
@@ -56,9 +78,7 @@ withDefaults(defineProps<Iprops>(), {
     font-size: 26px;
     color: rgba(0, 0, 0, 0.85);
     flex: 1;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
+    align-items: center;
   }
   .footer {
     display: flex;
