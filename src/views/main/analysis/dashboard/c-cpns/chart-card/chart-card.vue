@@ -1,7 +1,7 @@
 <template>
   <div class="chart-card">
     <el-card class="box-card" :header="header">
-      <h2>hhhh</h2>
+      <slot>默认内容</slot>
     </el-card>
   </div>
 </template>
