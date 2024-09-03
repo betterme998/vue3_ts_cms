@@ -5,3 +5,9 @@ export function getAmountListData() {
     url: '/goods/amount/list'
   })
 }
+
+export function getGoodsCategoryCount() {
+  return hyRequest.get({
+    url: '/goods/category/count'
+  })
+}

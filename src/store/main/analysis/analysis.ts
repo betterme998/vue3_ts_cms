@@ -1,19 +1,25 @@
-import { getAmountListData } from '@/service/main/analysis/analysis'
+import { getAmountListData, getGoodsCategoryCount } from '@/service/main/analysis/analysis'
 import { defineStore } from 'pinia'
 
 interface IAnalysisState {
   amountResult: any[]
+  goodsCategoryCount: any[]
 }
-
+// 商品统计
 const useAnalysisStore = defineStore('analysis', {
   state: (): IAnalysisState => ({
-    amountResult: []
+    amountResult: [],
+    goodsCategoryCount: []
   }),
   actions: {
-    async fetchAnalysisDataAcyion() {
-      const amountResult = await getAmountListData()
-      this.amountResult = amountResult.data.data
-      console.log(amountResult)
+    fetchAnalysisDataAcyion() {
+      getAmountListData().then((res) => {
+        this.amountResult = res.data.data
+      })
+
+      getGoodsCategoryCount().then((res) => {
+        this.goodsCategoryCount = res.data.data
+      })
     }
   }
 })

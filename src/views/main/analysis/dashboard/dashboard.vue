@@ -19,11 +19,13 @@
     <el-row :gutter="10">
       <el-col :span="7">
         <chart-card>
-          <div class="echartRef"></div>
+          <pie-echart :pie-data="showGoodsCategoryCount" />
         </chart-card>
       </el-col>
       <el-col :span="10">
-        <chart-card></chart-card>
+        <chart-card>
+          <line-echart />
+        </chart-card>
       </el-col>
       <el-col :span="7">
         <chart-card></chart-card>
@@ -43,32 +45,35 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
 import useAnalysisStore from '@/store/main/analysis/analysis'
 import countCard from './c-cpns/count-card/count-card.vue'
 import chartCard from './c-cpns/chart-card/chart-card.vue'
 
-import * as echarts from 'echarts'
+import { pieEchart, lineEchart } from '@/components/page-echarts'
+import { computed } from 'vue'
 
 // 1.发起数据的请求
 const analysisStore = useAnalysisStore()
 analysisStore.fetchAnalysisDataAcyion()
 
 // 2.从store获取数据qudao数据
-const { amountResult } = storeToRefs(analysisStore)
+const { amountResult, goodsCategoryCount } = storeToRefs(analysisStore)
 
-// 3.echarts相关逻辑
-const echartRef = ref<HTMLDivElement>()
-onMounted(() => {
-  // 1.初始化echarts
-  const echartInstance = echarts.init(echartRef.value!, 'dark', {
-    renderer: 'canvas'
-  })
+// 3.获取数据
+const showGoodsCategoryCount = computed(() => {
+  return goodsCategoryCount.value.map((item) => ({
+    name: item.name,
+    value: item.goodsCount
+  }))
 })
 </script>
 <style lang="less" scoped>
 .el-row {
   margin-bottom: 10px;
+}
+
+.echarts {
+  height: 20px;
 }
 </style>
