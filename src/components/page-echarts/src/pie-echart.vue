@@ -11,13 +11,11 @@ import { computed } from 'vue'
 import BaseEchart from './base-echart.vue'
 // 导入类型，echarts配置项的类型
 import type { EChartsOption } from 'echarts'
+// 数据类型
+import type { IEchartValueType } from '../types'
 
 // 图表数据需要传入
-// 数据类型
-interface IEchartValueType {
-  value: number
-  name: string
-}
+
 interface Iprops {
   pieData: IEchartValueType[]
 }

@@ -7,6 +7,7 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    BarEchart: typeof import('./components/page-echarts/src/bar-echart.vue')['default']
     BaseEchart: typeof import('./components/page-echarts/src/base-echart.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElAvatar: typeof import('element-plus/es')['ElAvatar']
@@ -52,6 +53,7 @@ declare module 'vue' {
     PageModal: typeof import('./components/page-modal/page-modal.vue')['default']
     PageSearch: typeof import('./components/page-search/page-search.vue')['default']
     PieEchart: typeof import('./components/page-echarts/src/pie-echart.vue')['default']
+    RoseEchart: typeof import('./components/page-echarts/src/rose-echart.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }
