@@ -9,6 +9,11 @@
 import { ref, onMounted, watchEffect } from 'vue'
 import * as echarts from 'echarts'
 import type { EChartsOption } from 'echarts'
+import ChinaJSON from '../data/china.json'
+import ChinaJSON2 from '../data/china2.json'
+
+// 注册地图组件
+echarts.registerMap('china', ChinaJSON2 as any)
 
 // echarts的类型
 interface Iprops {

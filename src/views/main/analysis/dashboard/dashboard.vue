@@ -24,7 +24,7 @@
       </el-col>
       <el-col :span="10">
         <chart-card>
-          <p>11</p>
+          <map-echart :map-data="showGoodsAdressSale" />
         </chart-card>
       </el-col>
       <el-col :span="7">
@@ -43,7 +43,7 @@
       </el-col>
       <el-col :span="12">
         <chart-card>
-          <bar-echart v-bind="showGoodsCategorySale" />
+          <bar-echart v-bind="showGoodsCategoryFavor" />
         </chart-card>
       </el-col>
     </el-row>
@@ -56,7 +56,7 @@ import useAnalysisStore from '@/store/main/analysis/analysis'
 import countCard from './c-cpns/count-card/count-card.vue'
 import chartCard from './c-cpns/chart-card/chart-card.vue'
 
-import { pieEchart, lineEchart, roseEchart, barEchart } from '@/components/page-echarts'
+import { pieEchart, lineEchart, roseEchart, barEchart, mapEchart } from '@/components/page-echarts'
 import { computed } from 'vue'
 
 // 1.发起数据的请求
@@ -64,33 +64,78 @@ const analysisStore = useAnalysisStore()
 analysisStore.fetchAnalysisDataAcyion()
 
 // 2.从store获取数据qudao数据
-const { amountResult, goodsCategoryCount, goodsCategorySale } = storeToRefs(analysisStore)
+const {
+  amountResult,
+  goodsCategoryCount,
+  goodsCategorySale,
+  goodsCategoryFavor,
+  goodsAddressSale
+} = storeToRefs(analysisStore)
 
 // 3.获取数据
 const showGoodsCategoryCount = computed(() => {
-  return goodsCategoryCount.value.map((item) => {
-    if (item.goodsCount === 0) item.goodsCount = null
-    return {
-      name: item.name,
-      value: item.goodsCount
-    }
-  })
+  return goodsCategoryCount.value
+    .filter(
+      (item) => item.goodsCount !== 0 && item.goodsCount !== null && item.goodsCount !== undefined
+    )
+    .map((item) => {
+      return {
+        name: item.name,
+        value: item.goodsCount
+      }
+    })
 })
-// 柱状图数据-销量数据
+// 折线图数据-销量数据
 const showGoodsCategorySale = computed(() => {
-  const labels = goodsCategorySale.value.map((item) => {
-    if (item.goodsCount === 0 || item.goodsCount === null) return
-    return item.name
-  })
-  const values = goodsCategorySale.value.map((item) => {
-    if (item.goodsCount === 0 || item.goodsCount === null) return
-    return item.goodsCount
-  })
+  const labels = goodsCategorySale.value
+    .filter(
+      (item) => item.goodsCount !== 0 && item.goodsCount !== null && item.goodsCount !== undefined
+    )
+    .map((item) => {
+      return item.name
+    })
+  const values = goodsCategorySale.value
+    .filter(
+      (item) => item.goodsCount !== 0 && item.goodsCount !== null && item.goodsCount !== undefined
+    )
+    .map((item) => {
+      return item.goodsCount
+    })
 
   return {
     labels,
     values
   }
+})
+// 柱状图-收藏数数据
+const showGoodsCategoryFavor = computed(() => {
+  const labels = goodsCategoryFavor.value
+    .filter(
+      (item) => item.goodsFavor !== 0 && item.goodsFavor !== null && item.goodsFavor !== undefined
+    )
+    .map((item) => {
+      return item.name
+    })
+  const values = goodsCategoryFavor.value
+    .filter(
+      (item) => item.goodsFavor !== 0 && item.goodsFavor !== null && item.goodsFavor !== undefined
+    )
+    .map((item) => {
+      return item.goodsFavor
+    })
+
+  return {
+    labels,
+    values
+  }
+})
+
+// 地图数据处理
+const showGoodsAdressSale = computed(() => {
+  return goodsAddressSale.value.map((item) => ({
+    name: item.address,
+    value: item.count
+  }))
 })
 </script>
 <style lang="less" scoped>

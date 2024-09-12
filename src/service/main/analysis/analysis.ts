@@ -20,3 +20,17 @@ export function getGoodsCategorySale() {
     url: '/goods/category/sale'
   })
 }
+
+// 每个商品的收藏次数
+export function getGoodsCategoryFavor() {
+  return hyRequest.get({
+    url: '/goods/category/favor'
+  })
+}
+
+// 每个商品的收藏次数
+export function getGoodsAddressSale() {
+  return hyRequest.get({
+    url: '/goods/address/sale'
+  })
+}
