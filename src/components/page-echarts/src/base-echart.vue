@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
 // 对echart基础的封装.，不同图标调用这个组件并传入相应option配置项
-import { ref, onMounted, watchEffect } from 'vue'
+import { ref, onMounted, watchEffect, onBeforeUnmount } from 'vue'
 import * as echarts from 'echarts'
 import type { EChartsOption } from 'echarts'
 import ChinaJSON from '../data/china.json'
@@ -33,7 +33,16 @@ onMounted(() => {
   watchEffect(() => {
     echartInstance.setOption(props.option)
   })
+
+  // 3.监听window缩放
+  const handleResize = () => {
+    echartInstance.resize()
+  }
+  window.addEventListener('resize', handleResize)
 })
+// onBeforeUnmount(() => {
+//   window.removeEventListener('resize', handleResize)
+// })
 </script>
 
 <style scoped lang="less">

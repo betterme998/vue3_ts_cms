@@ -9,7 +9,7 @@
     <!-- 1.顶部数字的数据展示 -->
     <el-row :gutter="10">
       <template v-for="item in amountResult" :key="item.amount">
-        <el-col :span="6">
+        <el-col :span="6" :xs="24" :sm="12" :md="8" :lg="6">
           <count-card v-bind="item" />
         </el-col>
       </template>
