@@ -12,6 +12,8 @@ import type { EChartsOption } from 'echarts'
 import ChinaJSON from '../data/china.json'
 import ChinaJSON2 from '../data/china2.json'
 
+import hythrottle from '@/utils/throttle'
+
 // 注册地图组件
 echarts.registerMap('china', ChinaJSON2 as any)
 
@@ -23,26 +25,46 @@ interface Iprops {
 const props = defineProps<Iprops>()
 
 const echartRef = ref<HTMLElement>()
+let echartInstance: echarts.ECharts | null = null
 onMounted(() => {
   // 1.初始化echart实例
-  const echartInstance = echarts.init(echartRef.value, 'light', {
+  echartInstance = echarts.init(echartRef.value, 'light', {
     renderer: 'canvas'
   })
   // 2. 第一次进行setOption 设置配置项和数据,是由别人传进来的
   // 进行监听，传过来的props，会自动搜集依赖，依赖变化会重新执行watchEffect的回调函数
   watchEffect(() => {
-    echartInstance.setOption(props.option)
+    echartInstance?.setOption(props.option)
   })
 
-  // 3.监听window缩放
-  const handleResize = () => {
-    echartInstance.resize()
-  }
+  // 添加窗口大小改变事件监听
   window.addEventListener('resize', handleResize)
 })
-// onBeforeUnmount(() => {
-//   window.removeEventListener('resize', handleResize)
-// })
+// 3.监听window缩放
+// const handleResize = () => {
+//   console.log(10 - new Date().getTime())
+
+//   if (echartInstance) {
+//     echartInstance.resize()
+//   }
+// }
+// 节流
+const handleResize = hythrottle(() => {
+  console.log(this)
+
+  if (echartInstance) {
+    echartInstance.resize()
+  }
+}, 1000)
+onBeforeUnmount(() => {
+  // 移除窗口大小改变事件监听
+  window.removeEventListener('resize', handleResize)
+  if (echartInstance) {
+    // 销毁实例
+    echartInstance.dispose()
+    echartInstance = null
+  }
+})
 </script>
 
 <style scoped lang="less">

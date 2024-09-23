@@ -142,6 +142,9 @@ const showGoodsAdressSale = computed(() => {
 .el-row {
   margin-bottom: 10px;
 }
+.el-col {
+  margin-bottom: 10px;
+}
 
 .echarts {
   height: 20px;

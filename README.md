@@ -438,3 +438,67 @@ main页面刷新保持路由注册
 .修改塔的网络请求部分
 .store/service
 3.2.组件进行配置
+
+# git Husky和eslint(后续)
+
+.在提交代码时可能格式有问题（空格，换行之类）
+可以执行 npm run lint (格式化代码)，但是每次都要执行，很麻烦
+
+<!-- 注意：终端要有 git bash,如果用其他终端需要 添加 '&&' -->
+
+npx husky-init && npm install (执行这个命令)
+这里会做三件事1.按照husky相关依赖2.在项目目录下创建.husky文件夹3.在package.json中添加一个脚本
+
+1.安装好后会生成.husky文件，里面会有一个pre-commit文件
+npm test 改成 npm run lint
+
+每次代码提交时（git commit -m "xxx"）都会执行 pre-commit文件里面的脚本）进行格式化代码
+
+# git commit 规范(后续)
+
+git commit -m "xxx" 换成 npx cz (提交代码)
+
+提交代码，做约束，规范commit信息
+
+第一步是选择type，本次更新的类型
+Tyрe 作用
+feat 新增特性(feature)
+fix 修复 Bug(bug fix)
+docs 修改文档(documentation)
+style 代码格式修改(white-space, formatting, missing semi colons, etc)
+refactor 代码重构(refactor)
+perf 改善性能(A code change that improves performance)
+test 测试(when adding missing tests)
+build 变更项目构建或外部依赖(例如scopes: webpack、gulp、npm等)
+ci 更改持续集成软件的配置文件和 package中的scripts 命令，例如 scopes: Travis,Circle 等
+chore 变更构建流程或辅助工具(比如更改测试环境)
+revert 代码回退
+
+1.安装Commitizen
+npm install commitizen -D
+
+2.安装cz-conventional-changelog,并且初始化cz-conventional-changelog:
+npx commitizen init cz-conventional-changelog --save-dev --save-exact
+这个命令会帮助我们安装cz-conventional-changelog，并且初始化它
+会自动在package.json中添加一个配置项
+"config": {
+"commitizen": {
+"path": "./node_modules/cz-conventional-changelog"
+}
+}
+
+3.代码提交验证
+.如果我们安装cz来规范提交风格，但是依然有同时通过git commit 按照不规范的提交怎么办？
+
+.我们通过commitlint来限制提交
+
+1.安装 @commitlint/config-conventional 和 @commitlint/cli
+npm i @commitlint/config-conventional @commitlint/cli -D
+
+2.在根目录创建commitlint.config.js文件，配置commitlint
+module.exports={
+extends:['@commitlint/config-conventional']
+}
+
+3.使用husky生成commit-msg钩子文件,验证提交信息
+npx husky add .husky/commit-msg "npx --no-install commitlint --edit $1'
