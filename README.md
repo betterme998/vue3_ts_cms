@@ -495,10 +495,14 @@ npx commitizen init cz-conventional-changelog --save-dev --save-exact
 1.安装 @commitlint/config-conventional 和 @commitlint/cli
 npm i @commitlint/config-conventional @commitlint/cli -D
 
+<!-- 注意：手动创建文件 -->
+
 2.在根目录创建commitlint.config.js文件，配置commitlint
 module.exports={
 extends:['@commitlint/config-conventional']
 }
 
 3.使用husky生成commit-msg钩子文件,验证提交信息
-npx husky add .husky/commit-msg "npx --no-install commitlint --edit $1'
+npx husky add .husky/commit-msg "npx --no-install commitlint --edit $1"
+
+会在husky文件夹中生成commit-msg文件，里面有脚本 (会检查提交代码是通过什么方式提交的)
