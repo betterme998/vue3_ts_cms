@@ -64,7 +64,6 @@ export default function hythrottle<T extends (...args: any[]) => any>(
     startTime = 0
     timer = null
   }
-  console.log(12)
 
   return _throttle as unknown as T
 }
