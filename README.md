@@ -505,4 +505,10 @@ extends:['@commitlint/config-conventional']
 3.使用husky生成commit-msg钩子文件,验证提交信息
 npx husky add .husky/commit-msg "npx --no-install commitlint --edit $1"
 
-会在husky文件夹中生成commit-msg文件，里面有脚本 (会检查提交代码是通过什么方式提交的)
+会在husky文件夹中生成commit-msg文件，里面有脚本 (会检查提交代码是通过什么方式提交的，如果用git add . 提交，会执行commitlint的脚本。从而阻止提交)
+
+新的提交方法：npx cz
+
+在package.json中添加一个脚本："commit": "cz"
+
+可以直接 npm run commit 来提交代码
