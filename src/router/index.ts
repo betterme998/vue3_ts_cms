@@ -1,8 +1,8 @@
 import { localCache } from '@/utils/cache'
 import { createRouter, createWebHashHistory } from 'vue-router'
-import { LOGIN_TOKEN } from '@/global/constants'
+import { LOGIN_TOKEN, LOGIN_TOKEN2 } from '@/global/constants'
 import { firstMenu } from '@/utils/map-menus'
-
+import useLoginStore from '@/store/login/login'
 const router = createRouter({
   // 哈希
   history: createWebHashHistory(),
@@ -32,7 +32,10 @@ const router = createRouter({
 // 参数：to(跳转到的位置)/from（从哪里跳转过来）
 // 返回值：返回值决定导航的路径（不反回或返回undefined就默认跳转）
 router.beforeEach((to, from) => {
-  const token = localCache.getCache(LOGIN_TOKEN)
+  const loginStore = useLoginStore()
+  const token = loginStore.locality
+    ? localCache.getCache(LOGIN_TOKEN2)
+    : localCache.getCache(LOGIN_TOKEN)
   if (to.path === '/main' && !token) {
     // 只有登录成功（token），才能进入到main页面
     return '/login'

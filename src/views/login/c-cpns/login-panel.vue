@@ -22,15 +22,15 @@
           </template>
           <pane-account ref="accountRef" />
         </el-tab-pane>
-        <el-tab-pane label="手机登录" name="phone">
+        <el-tab-pane label="本地登录" name="phone">
           <!-- 插槽 -->
           <template #label>
             <div class="label">
               <el-icon><Cellphone /></el-icon>
-              <span class="text">手机登录</span>
+              <span class="text">本地登录</span>
             </div>
           </template>
-          <pane-phone />
+          <pane-phone ref="accountRef2" />
         </el-tab-pane>
       </el-tabs>
     </div>
@@ -66,6 +66,7 @@ watch(isRemPwd, (newValue) => {
 // 这个实例可以当成‘类’使用（模拟成类，类可以当成泛型类型使用），ts语法：InstanceType<typeof 构造器>返回构造器创建的实例的类型
 // 把PaneAccount 当成构造器，我们使用它（在template中<pane-account/>）相当于创建了实例，我们要获取这个实例的类型，返回构造器创建的实例类型
 const accountRef = ref<InstanceType<typeof PaneAccount>>()
+const accountRef2 = ref<InstanceType<typeof PanePhone>>()
 
 // 点击登录
 function handleLoginBtnClick() {
@@ -73,7 +74,8 @@ function handleLoginBtnClick() {
     // 1.获取子组件的实例调用方法，并将是否记住密码传递过去
     accountRef.value?.loginAction(isRemPwd.value)
   } else {
-    console.log('用户手机登录')
+    // 本地数据登录
+    accountRef2.value?.loginAction2()
   }
 }
 </script>

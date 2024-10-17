@@ -511,4 +511,4 @@ npx husky add .husky/commit-msg "npx --no-install commitlint --edit $1"
 
 在package.json中添加一个脚本："commit": "cz"
 
-可以直接 npm run commit 来提交代码
+1.git add . 2.可以直接 npm run commit 来提交代码

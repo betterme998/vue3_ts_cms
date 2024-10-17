@@ -12,6 +12,9 @@ import useMainStore from '@/store/main/main'
 import { defineStore } from 'pinia'
 import type { ISystemState } from './type'
 
+// 本地登录数据
+import { pageListResult2 } from '@/global/data'
+
 const userSystemStore = defineStore('system', {
   state: (): ISystemState => ({
     usersList: [],
@@ -21,9 +24,11 @@ const userSystemStore = defineStore('system', {
     pageTotalCount: 0
   }),
   actions: {
+    // ************这下面4个函数没用，用的是最后4个方法：针对所有页面的数据： 增删改查********
     // 用户列表，总数量
     async postUsersListActive(queryInfo: any) {
       const userListResult = await postUsersListData(queryInfo)
+
       const { totalCount, list } = userListResult.data.data
       this.usersTotalCount = totalCount
       this.usersList = list
@@ -52,13 +57,13 @@ const userSystemStore = defineStore('system', {
       this.postUsersListActive({ offset: 0, size: 10 })
     },
 
-    /** 针对所有页面的数据： 增删改查 **/
+    /*********** 针对所有页面的数据： 增删改查 ************/
     // 当进行增删改查后会重新获取数据，分页也会变成第一页。在使用这些方法的地方监听他们来判断是否调用，从而控制分页变成1
     async postPageListAction(pageName: string, queryInfo: any) {
       const pageListResult = await postPageListData(pageName, queryInfo)
       const { totalCount, list } = pageListResult.data.data
       this.pageList = list
-      console.log(list)
+      console.log(totalCount, list)
 
       this.pageTotalCount = totalCount ? totalCount : list.length
     },
@@ -90,6 +95,24 @@ const userSystemStore = defineStore('system', {
       this.postPageListAction(pageName, { offset: 0, size: 10 })
 
       // 3.获取完整的数据,编辑完后，需要获取完整的角色数据
+      const mainStore = useMainStore()
+      mainStore.fetchEntireDataAction()
+    },
+    // 本地登录-数据处理*****************************************************************************
+    postPageListAction2() {
+      const { totalCount, list } = pageListResult2.data.data
+      this.pageList = list
+      this.pageTotalCount = totalCount ? totalCount : list.length
+      console.log(totalCount, list)
+    },
+    deletePageByIdAction2(pageName: string, id: number) {
+      // 1.删除数据操作
+      console.log(pageName, id)
+      this.pageList = this.pageList.filter((pageList) => pageList.id !== id)
+      // 2.删除成功后，重新获取数据
+      this.postPageListAction(pageName, { offset: 0, size: 10 })
+
+      // 3.获取完整的数据,删除后，需要获取完整的角色数据
       const mainStore = useMainStore()
       mainStore.fetchEntireDataAction()
     }

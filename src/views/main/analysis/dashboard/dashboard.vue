@@ -59,9 +59,17 @@ import chartCard from './c-cpns/chart-card/chart-card.vue'
 import { pieEchart, lineEchart, roseEchart, barEchart, mapEchart } from '@/components/page-echarts'
 import { computed } from 'vue'
 
+// 是否本地登录
+import useLoginStore from '@/store/login/login'
+const loginStore = useLoginStore()
+
 // 1.发起数据的请求
 const analysisStore = useAnalysisStore()
-analysisStore.fetchAnalysisDataAcyion()
+if (loginStore.locality) {
+  analysisStore.fetchAnalysisDataAcyion2()
+} else {
+  analysisStore.fetchAnalysisDataAcyion()
+}
 
 // 2.从store获取数据qudao数据
 const {

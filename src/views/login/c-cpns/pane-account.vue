@@ -82,6 +82,7 @@ function loginAction(isRemPwd: boolean) {
     }
   })
 }
+
 // 报出去给父组件使用
 defineExpose({
   loginAction
