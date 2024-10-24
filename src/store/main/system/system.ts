@@ -13,7 +13,14 @@ import { defineStore } from 'pinia'
 import type { ISystemState } from './type'
 
 // 本地登录数据
+interface Module {
+  [key: string]: any
+}
 import { pageListResult2 } from '@/global/data'
+const loadData = async (key: any) => {
+  const module: Module = await import('@/global/data')
+  return module[key]
+}
 
 const userSystemStore = defineStore('system', {
   state: (): ISystemState => ({
@@ -61,6 +68,8 @@ const userSystemStore = defineStore('system', {
     // 当进行增删改查后会重新获取数据，分页也会变成第一页。在使用这些方法的地方监听他们来判断是否调用，从而控制分页变成1
     async postPageListAction(pageName: string, queryInfo: any) {
       const pageListResult = await postPageListData(pageName, queryInfo)
+      console.log(JSON.stringify(pageListResult))
+
       const { totalCount, list } = pageListResult.data.data
       this.pageList = list
       console.log(totalCount, list)
@@ -99,8 +108,10 @@ const userSystemStore = defineStore('system', {
       mainStore.fetchEntireDataAction()
     },
     // 本地登录-数据处理*****************************************************************************
-    postPageListAction2() {
-      const { totalCount, list } = pageListResult2.data.data
+    async postPageListAction2(num?: string) {
+      const data = await loadData(`pageListResult${num}`)
+      const { totalCount, list } = data.data.data
+
       this.pageList = list
       this.pageTotalCount = totalCount ? totalCount : list.length
       console.log(totalCount, list)

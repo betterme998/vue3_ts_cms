@@ -80,6 +80,10 @@ import userSystemStore from '@/store/main/system/system'
 import { formatUTC } from '@/utils/format'
 import usePermissions from '@/hooks/usePermissions'
 
+// 是否本地登录
+import useLoginStore from '@/store/login/login'
+const loginStore = useLoginStore()
+
 interface IProps {
   contentConfig: {
     pageName: string
@@ -89,6 +93,7 @@ interface IProps {
     }
     propsList: any[]
     childrenTree?: any[]
+    num?: string
   }
 }
 const props = defineProps<IProps>()
@@ -132,8 +137,13 @@ function fetchPageListData(formDate: any = {}) {
   // 2.获取查询条件
   const queryInfo = { ...pageInfo, ...formDate }
   console.log(queryInfo, 'content')
-
-  systemStore.postPageListAction(props.contentConfig.pageName, queryInfo)
+  if (loginStore.locality) {
+    // 本地登录
+    systemStore.postPageListAction2(props.contentConfig.num)
+  } else {
+    // 密码登录,有网络请求
+    systemStore.postPageListAction(props.contentConfig.pageName, queryInfo)
+  }
 }
 
 // 5.删除/编辑/新建的操作

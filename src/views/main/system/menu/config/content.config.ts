@@ -25,7 +25,8 @@ const contentConfig = {
     treeProps: {
       children: 'children'
     }
-  }
+  },
+  num: '4'
 }
 
 export default contentConfig

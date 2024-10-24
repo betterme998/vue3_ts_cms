@@ -65,6 +65,7 @@ const fromRef = ref<InstanceType<typeof ElForm>>()
 const loginStore = useLoginStore()
 // 本地登录
 function loginAction2() {
+  localCache.setCache('locality', true)
   loginStore.loginLocalData()
 }
 // 报出去给父组件使用

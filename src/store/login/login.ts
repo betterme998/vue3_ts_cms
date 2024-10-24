@@ -140,6 +140,65 @@ const useLoginStore = defineStore('login', {
 
       // 5.页面跳转（main页面）
       router.push('/main')
+    },
+    Refresh() {
+      this.locality = true
+      // 进行本地缓存
+      // 1.获取token等信息
+      const loginResult = loginResult2
+      const id = loginResult.data.data.id
+      this.token = loginResult.data.data.token
+      // 进行本地缓存
+      localCache.setCache(LOGIN_TOKEN2, this.token)
+      // 2.获取登录用户的详细信息
+      const userInfoResult = userInfoResult2
+      const userInfo = userInfoResult.data.data
+      this.userInfo = userInfo
+      // 3.根据角色请求用户的权限（菜单menus）
+      const userMenusResult = userMenusResult2
+      const userMenus = userMenusResult.data.data
+      this.userMenus = userMenus
+      // 4.进行本地缓存
+      localCache.setCache('userInfos2', userInfo)
+      localCache.setCache('userMenuss2', userMenus)
+      // 5.请求所有角色/部门数据(roles/departments)数据
+      const mainStore = useMainStore()
+      mainStore.fetchEntireDataAction2()
+
+      // 重要：获取登录用户的所有按钮权限
+      // 用户的权限也在返回的菜单当中，需要通过方法抽取出来，并存入store中
+      const permissions = mapMenuListToPermissions(userMenus)
+      this.permissions = permissions
+      // 5.重要：动态添加路由
+      const routes = mapMenusToRoutes(userMenus)
+
+      routes.forEach((route) => router.addRoute('main', route))
+    },
+    loadLocalCacheAction2() {
+      this.Refresh()
+      // 1.本地登录时用户进行刷新默认加载数据
+      const token = localCache.getCache(LOGIN_TOKEN2)
+      const userInfo = localCache.getCache('userInfos2')
+      const userMenus = localCache.getCache('userMenuss2')
+      if (token && userInfo && userMenus) {
+        this.token = token
+        this.userInfo = userInfo
+        this.userMenus = userMenus
+
+        // 刷新后重新请求
+        // 1.请求所有角色/部门数据(roles/departments)数据
+        const mainStore = useMainStore()
+        mainStore.fetchEntireDataAction2()
+
+        // 2.获取登录用户的所有按钮权限
+        const permissions = mapMenuListToPermissions(userMenus)
+        this.permissions = permissions
+
+        // 动态添加路由
+        // 2.重要：动态添加路由
+        const routes = mapMenusToRoutes(userMenus)
+        routes.forEach((route) => router.addRoute('main', route))
+      }
     }
   }
 })
