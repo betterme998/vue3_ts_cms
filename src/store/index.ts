@@ -11,14 +11,10 @@ function registerStore(app: App<Element>) {
   app.use(pinia)
   // 2.加载本地的数据
   const loginStore = useLoginStore()
-  console.log(loginStore.locality)
   const locality = localCache.getCache('locality')
-  if (loginStore.locality) {
-    console.log(1231)
-
+  if (locality) {
     loginStore.loadLocalCacheAction2()
   } else {
-    console.log(11111)
     loginStore.loadLocalCacheAction()
   }
 }

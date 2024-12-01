@@ -57,6 +57,7 @@ import useLoginStore from '@/store/login/login'
 const router = useRouter()
 function handleExitClick() {
   localCache.removeCache(LOGIN_TOKEN)
+  localCache.removeCache('locality')
   router.push('/login')
 }
 

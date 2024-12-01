@@ -22,10 +22,10 @@
       ref="fromRef"
     >
       <el-form-item label="帐号" prop="name">
-        <el-input v-model="account.name" />
+        <el-input v-model="account.name" placeholder="直接登录" disabled />
       </el-form-item>
       <el-form-item label="密码" prop="password">
-        <el-input v-model="account.password" show-password />
+        <el-input v-model="account.password" placeholder="直接登录" show-password disabled />
       </el-form-item>
     </el-form>
   </div>
@@ -65,7 +65,6 @@ const fromRef = ref<InstanceType<typeof ElForm>>()
 const loginStore = useLoginStore()
 // 本地登录
 function loginAction2() {
-  localCache.setCache('locality', true)
   loginStore.loginLocalData()
 }
 // 报出去给父组件使用
