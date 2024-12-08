@@ -5439,3 +5439,96 @@ export const pageListResult5 = {
   },
   request: {}
 }
+
+// 商品类别
+export const pageListResult6 = {
+  data: {
+    code: 0,
+    data: {
+      list: [
+        {
+          id: 2002,
+          name: '战衣啊',
+          createAt: '2024-11-26T06:59:05.000Z',
+          updateAt: '2024-11-26T06:59:12.000Z'
+        },
+        {
+          id: 9,
+          name: 'Polo',
+          createAt: '2023-07-09T17:20:59.000Z',
+          updateAt: '2023-07-09T17:20:59.000Z'
+        },
+        {
+          id: 8,
+          name: '女装',
+          createAt: '2021-04-30T13:25:43.000Z',
+          updateAt: '2021-04-30T13:25:43.000Z'
+        },
+        {
+          id: 7,
+          name: '床上用品',
+          createAt: '2021-04-19T07:56:58.000Z',
+          updateAt: '2021-04-19T07:56:58.000Z'
+        },
+        {
+          id: 6,
+          name: '家具',
+          createAt: '2021-04-19T07:56:52.000Z',
+          updateAt: '2021-04-19T07:56:52.000Z'
+        },
+        {
+          id: 5,
+          name: '厨具',
+          createAt: '2021-04-19T07:56:43.000Z',
+          updateAt: '2021-04-19T07:56:43.000Z'
+        },
+        {
+          id: 4,
+          name: '鞋子',
+          createAt: '2021-04-19T07:56:31.000Z',
+          updateAt: '2021-04-19T07:56:31.000Z'
+        },
+        {
+          id: 3,
+          name: '裤子',
+          createAt: '2021-04-19T07:56:27.000Z',
+          updateAt: '2021-04-19T07:56:27.000Z'
+        },
+        {
+          id: 2,
+          name: '上衣',
+          createAt: '2021-04-19T07:55:28.000Z',
+          updateAt: '2021-04-19T07:55:28.000Z'
+        }
+      ],
+      totalCount: 9
+    }
+  },
+  status: 200,
+  statusText: 'OK',
+  headers: { 'content-length': '962', 'content-type': 'application/json; charset=utf-8' },
+  config: {
+    transitional: { silentJSONParsing: true, forcedJSONParsing: true, clarifyTimeoutError: false },
+    adapter: ['xhr', 'http'],
+    transformRequest: [null],
+    transformResponse: [null],
+    timeout: 10000,
+    xsrfCookieName: 'XSRF-TOKEN',
+    xsrfHeaderName: 'X-XSRF-TOKEN',
+    maxContentLength: -1,
+    maxBodyLength: -1,
+    env: {},
+    headers: {
+      Accept: 'application/json, text/plain, */*',
+      'Content-Type': 'application/json',
+      Authorization:
+        'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6ImNvZGVyd2h5Iiwicm9sZSI6eyJpZCI6MSwibmFtZSI6Iui2hee6p-euoeeQhuWRmCJ9LCJpYXQiOjE3MzM2NDEzMjMsImV4cCI6MTczNjIzMzMyM30.nGWiECFt7b6DOee-oVRWcp_yDgv8nZ7tNByy1CkiLznOQrpGn0vy2naobQuBoelft2hWo9qHUky5iq3d6wn4KXM_ms2n_k0Khe47aSX4nhVQjypBbWp4Utrmwcs4v4bRWvElpW3K9Ui_xhtRF-3j2wmqYS-xO_I8tV2l36Alp9E'
+    },
+    baseURL: 'http://codercba.com:5000',
+    interceptors: {},
+    url: '/category/list',
+    data: '{"size":10,"offset":0}',
+    method: 'post'
+  },
+  request: {}
+}
