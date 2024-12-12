@@ -54,7 +54,7 @@
             </el-table-column>
           </template>
           <template v-else>
-            <el-table-column align="center" v-bind="item" />
+            <el-table-column show-overflow-tooltip align="center" v-bind="item" />
           </template>
         </template>
       </el-table>

@@ -24,10 +24,10 @@ const searchConfig = {
       options: [
         {
           value: 1,
-          label: '启用'
+          label: '可用'
         },
         {
-          value: '禁用',
+          value: '下架',
           label: 0
         }
       ],
