@@ -457,9 +457,10 @@ export const userMenusResult2 = {
             url: '/main/story/list',
             name: '故事列表',
             sort: 109,
-            type: 2,
+            type: 3,
             children: [],
-            parentId: 41
+            parentId: 41,
+            permission: 'system:story:query'
           }
         ]
       }
@@ -5736,6 +5737,102 @@ export const pageListResult7 = {
     baseURL: 'http://codercba.com:5000',
     interceptors: {},
     url: '/goods/list',
+    data: '{"size":10,"offset":0}',
+    method: 'post'
+  },
+  request: {}
+}
+
+// 故事列表本地数据
+export const pageListResult8 = {
+  data: {
+    code: 0,
+    data: {
+      list: [
+        {
+          id: 2204,
+          title: '将进酒',
+          content:
+            '君不见，黄河之水天上来，奔流到海不复回。君不见，高堂明镜悲白发，朝如青丝暮成雪。人生得意须尽欢，莫使金樽空对月。天生我材必有用，千金散尽还复来。烹羊宰牛且为乐，会须一饮三百杯。岑夫子，丹丘生，将进酒，杯莫停。与君歌一曲，请君为我倾耳听。(倾耳听 一作：侧耳听)钟鼓馔玉不足贵，但愿长醉不愿醒。(不足贵 一作：何足贵；不愿醒 一作：不复醒)古来圣贤皆寂寞，惟有饮者留其名。(古来 一作：自古；惟 通：唯)陈王昔时宴平乐，斗酒十千恣欢谑。主人何为言少钱，径须沽取对君酌。五花马，千金裘，呼儿将出换美酒，与尔同销万古愁。',
+          createAt: '2024-12-16T06:27:03.000Z'
+        },
+        {
+          id: 2203,
+          title: '关雎',
+          content:
+            '<p><span style="color: rgb(15, 15, 15); background-color: rgb(240, 239, 226); font-size: 16px;">关关雎鸠，在河之洲。窈窕淑女，君子好逑。<br>参差荇菜，左右流之。窈窕淑女，寤寐求之。<br>求之不得，寤寐思服。悠哉悠哉，辗转反侧。<br>参差荇菜，左右采之。窈窕淑女，琴瑟友之。<br>参差荇菜，左右芼之。窈窕淑女，钟鼓乐之。</span>2</p>',
+          createAt: '2024-12-16T03:45:55.000Z'
+        },
+        { id: 2202, title: '1', content: '<p>2</p>', createAt: '2024-12-16T03:42:11.000Z' },
+        {
+          id: 2201,
+          title: '我与地坛',
+          content:
+            '宇宙以其不息的欲望将一个歌舞炼为永恒。这欲望有怎样一个人间的姓名，大可忽略不计。',
+          createAt: '2024-12-09T04:01:26.000Z'
+        },
+        {
+          id: 2200,
+          title: '我与地坛',
+          content:
+            '宇宙以其不息的欲望将一个歌舞炼为永恒。这欲望有怎样一个人间的姓名，大可忽略不计。',
+          createAt: '2024-12-04T07:10:35.000Z'
+        },
+        {
+          id: 2199,
+          title: '我与地坛',
+          content:
+            '宇宙以其不息的欲望将一个歌舞炼为永恒。这欲望有怎样一个人间的姓名，大可忽略不计。',
+          createAt: '2024-11-27T02:55:40.000Z'
+        },
+        {
+          id: 2198,
+          title: '我与地坛',
+          content:
+            '宇宙以其不息的欲望将一个歌舞炼为永恒。这欲望有怎样一个人间的姓名，大可忽略不计。',
+          createAt: '2024-11-22T07:34:55.000Z'
+        },
+        { id: 2197, title: '33', content: '<p>玩3</p>', createAt: '2024-11-08T06:39:45.000Z' },
+        {
+          id: 2196,
+          title: '我与地坛',
+          content:
+            '宇宙以其不息的欲望将一个歌舞炼为永恒。这欲望有怎样一个人间的姓名，大可忽略不计。',
+          createAt: '2024-11-07T15:01:01.000Z'
+        },
+        {
+          id: 2195,
+          title: 'wdwd',
+          content: '<p>哈哈哈哈哈wdwdwdw</p>',
+          createAt: '2024-11-04T07:54:45.000Z'
+        }
+      ],
+      totalCount: 2204
+    }
+  },
+  status: 200,
+  statusText: 'OK',
+  headers: { 'content-length': '2691', 'content-type': 'application/json; charset=utf-8' },
+  config: {
+    transitional: { silentJSONParsing: true, forcedJSONParsing: true, clarifyTimeoutError: false },
+    adapter: ['xhr', 'http'],
+    transformRequest: [null],
+    transformResponse: [null],
+    timeout: 10000,
+    xsrfCookieName: 'XSRF-TOKEN',
+    xsrfHeaderName: 'X-XSRF-TOKEN',
+    maxContentLength: -1,
+    maxBodyLength: -1,
+    env: {},
+    headers: {
+      Accept: 'application/json, text/plain, */*',
+      'Content-Type': 'application/json',
+      Authorization:
+        'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6ImNvZGVyd2h5Iiwicm9sZSI6eyJpZCI6MSwibmFtZSI6Iui2hee6p-euoeeQhuWRmCJ9LCJpYXQiOjE3MzQzMjA0NzEsImV4cCI6MTczNjkxMjQ3MX0.dZSWmJLMLmP7Wg2RPLjKsX0lCff3nn1Pbzef2euH0n5oZ2yu_LmDqH0EwgFQcbiVEMPddiZhGApH5GFZun1Mcud6YXnAWxkUTpkepYdHZ9am-xw0MZcpfXQ94qtjWBAPhHaXlmBJ2vI31qIzXiHq16wLZMwKDyFI2NqvqEzCCyQ'
+    },
+    baseURL: 'http://codercba.com:5000',
+    interceptors: {},
+    url: '/story/list',
     data: '{"size":10,"offset":0}',
     method: 'post'
   },

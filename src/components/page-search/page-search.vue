@@ -83,8 +83,6 @@ function handleResetClick() {
 // 2.查询方法
 // 先将方法发送出去，在父组件中调用，在通过父组件转到子组件中调用（查询方法在兄弟组件）
 function handleQueryClick() {
-  console.log(searchForm.createAt)
-
   emit('queryClick', searchForm)
 }
 </script>

@@ -35,14 +35,12 @@ const useLoginStore = defineStore('login', {
       localCache.setCache('locality', false)
       // 1.账号登录，获取token等信息
       const loginResult = await accountLogins(account)
-      console.log(loginResult)
       const id = loginResult.data.data.id
       this.token = loginResult.data.data.token
       // 进行本地缓存
       localCache.setCache(LOGIN_TOKEN, this.token)
 
       // 2.获取登录用户的详细信息
-      console.log(id)
       const userInfoResult = await getUserInfoById(id)
 
       const userInfo = userInfoResult.data.data
@@ -51,7 +49,6 @@ const useLoginStore = defineStore('login', {
       // 3.根据角色请求用户的权限（菜单menus）
       const userMenusResult = await getUserMenusByRoleId(this.userInfo.role.id)
       const userMenus = userMenusResult.data.data
-      console.log(JSON.stringify(userMenusResult))
 
       this.userMenus = userMenus
 
@@ -71,7 +68,6 @@ const useLoginStore = defineStore('login', {
       const routes = mapMenusToRoutes(userMenus)
 
       routes.forEach((route) => router.addRoute('main', route))
-      console.log(router)
 
       // 5.页面跳转（main页面）
       router.push('/main')

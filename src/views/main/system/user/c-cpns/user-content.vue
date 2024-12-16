@@ -118,7 +118,6 @@ function fetchUserListData(formDate: any = {}) {
   // 发起网络请求
   // 2.获取查询条件
   const queryInfo = { ...pageInfo, ...formDate }
-  console.log(queryInfo)
 
   systemStore.postUsersListActive(queryInfo)
 }

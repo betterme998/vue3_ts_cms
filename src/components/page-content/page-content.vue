@@ -136,7 +136,6 @@ function fetchPageListData(formDate: any = {}) {
   // 发起网络请求
   // 2.获取查询条件
   const queryInfo = { ...pageInfo, ...formDate }
-  console.log(queryInfo, 'content')
   if (loginStore.locality) {
     // 本地登录
     systemStore.postPageListAction2(props.contentConfig.num)

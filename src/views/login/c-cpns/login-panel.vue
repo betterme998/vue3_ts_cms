@@ -56,9 +56,7 @@ const activeName = ref('account')
 // 是否保存密码
 const isRemPwd = ref<boolean>(localCache.getCache('isRemPwd') ?? false)
 watch(isRemPwd, (newValue) => {
-  console.log(newValue)
   localCache.setCache('isRemPwd', newValue)
-  console.log(localCache.getCache('isRemPwd'))
 })
 
 // 给子组件绑定ref，父组件拿到里面的方法并调用

@@ -56,7 +56,6 @@ const editData = ref()
 const mainStore = useMainStore()
 const systemStore = userSystemStore()
 const { entireDepartments } = storeToRefs(mainStore)
-console.log(entireDepartments)
 
 // 2.定义设置dialogVisible方法
 // 控制新建/编辑弹窗，接受两个参数，isNew：是否新建，itemData：编辑数据

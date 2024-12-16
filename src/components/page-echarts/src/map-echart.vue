@@ -16,7 +16,6 @@ const props = defineProps<{
 }>()
 
 const option = computed<EChartsOption>(() => {
-  console.log(convertData(props.mapData))
   return {
     backgroundColor: '#fff',
     title: {

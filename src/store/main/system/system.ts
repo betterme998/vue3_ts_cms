@@ -39,12 +39,10 @@ const userSystemStore = defineStore('system', {
       const { totalCount, list } = userListResult.data.data
       this.usersTotalCount = totalCount
       this.usersList = list
-      console.log(totalCount, list)
     },
     async deieteUserByIdAction(id: number) {
       // 1.删除数据操作
       const deleteResult = await deleteUserById(id)
-      console.log(deleteResult)
       // 2.删除成功后，重新获取数据
       this.postUsersListActive({ offset: 0, size: 10 })
     },
@@ -52,7 +50,6 @@ const userSystemStore = defineStore('system', {
     async newUserDataAction(userInfo: any) {
       // 创建用户
       const newResult = await newUserData(userInfo)
-      console.log('newUserResult', newResult)
       // 创建成功后，重新获取数据
       this.postUsersListActive({ offset: 0, size: 10 })
     },
@@ -68,11 +65,9 @@ const userSystemStore = defineStore('system', {
     // 当进行增删改查后会重新获取数据，分页也会变成第一页。在使用这些方法的地方监听他们来判断是否调用，从而控制分页变成1
     async postPageListAction(pageName: string, queryInfo: any) {
       const pageListResult = await postPageListData(pageName, queryInfo)
-      console.log(JSON.stringify(pageListResult))
 
       const { totalCount, list } = pageListResult.data.data
       this.pageList = list
-      console.log(totalCount, list)
 
       this.pageTotalCount = totalCount ? totalCount : list.length
     },
@@ -89,7 +84,6 @@ const userSystemStore = defineStore('system', {
     async newPageDataAction(pageName: string, pageInfo: any) {
       // 1.创建
       const newResult = await newPageData(pageName, pageInfo)
-      console.log('newUserResult', newResult)
       // 2.创建成功后，重新获取数据
       this.postPageListAction(pageName, { offset: 0, size: 10 })
 
@@ -114,18 +108,16 @@ const userSystemStore = defineStore('system', {
 
       this.pageList = list
       this.pageTotalCount = totalCount ? totalCount : list.length
-      console.log(totalCount, list)
     },
     deletePageByIdAction2(pageName: string, id: number) {
       // 1.删除数据操作
-      console.log(pageName, id)
       this.pageList = this.pageList.filter((pageList) => pageList.id !== id)
-      // 2.删除成功后，重新获取数据
-      this.postPageListAction(pageName, { offset: 0, size: 10 })
+      // // 2.删除成功后，重新获取数据
+      // this.postPageListAction2()
 
       // 3.获取完整的数据,删除后，需要获取完整的角色数据
       const mainStore = useMainStore()
-      mainStore.fetchEntireDataAction()
+      mainStore.fetchEntireDataAction2()
     }
   }
 })

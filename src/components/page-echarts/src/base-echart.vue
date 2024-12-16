@@ -50,8 +50,6 @@ onMounted(() => {
 // }
 // 节流
 const handleResize = hythrottle(() => {
-  console.log(this)
-
   if (echartInstance) {
     echartInstance.resize()
   }

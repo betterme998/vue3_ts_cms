@@ -11,7 +11,6 @@ export function convertData(data: any) {
       })
     }
   }
-  console.log(res)
 
   return res
 }

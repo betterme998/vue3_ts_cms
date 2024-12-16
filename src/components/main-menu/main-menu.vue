@@ -61,7 +61,6 @@ const userMenus = loginStore.userMenus
 const router = useRouter()
 function handleItemClick(item: any) {
   const url = item.url
-  console.log(url)
 
   router.push(url)
 }

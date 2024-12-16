@@ -36,26 +36,21 @@ const useAnalysisStore = defineStore('analysis', {
     fetchAnalysisDataAcyion() {
       getAmountListData().then((res) => {
         this.amountResult = res.data.data
-        console.log(JSON.stringify(this.amountResult))
       })
 
       getGoodsCategoryCount().then((res) => {
         this.goodsCategoryCount = res.data.data
-        console.log(JSON.stringify(this.goodsCategoryCount))
       })
 
       getGoodsCategorySale().then((res) => {
         this.goodsCategorySale = res.data.data
-        console.log(JSON.stringify(this.goodsCategorySale))
       })
 
       getGoodsCategoryFavor().then((res) => {
         this.goodsCategoryFavor = res.data.data
-        console.log(JSON.stringify(this.goodsCategoryFavor))
       })
       getGoodsAddressSale().then((res) => {
         this.goodsAddressSale = res.data.data
-        console.log(JSON.stringify(this.goodsAddressSale))
       })
     },
     // 本地登录数据
